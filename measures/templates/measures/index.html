@@ -1,0 +1,26 @@
+{% extends "base.html"  %}
+
+{% block head %}
+<style media="screen">
+    body {
+        font-family: Quicksand;
+    }
+    .form-control {
+        border-radius: 0;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<h1>Glucose Monitor</h1>
+<a href="/measures/create">Adicionar Medida</a>
+<ul>
+    {% for measure in measures %}
+    <li>{{ measure.value }} mg/dL | {{ measure.datetime | timesince }} atrás </li>
+    {% empty %}
+    <li>Nenhuma medida encontrada.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

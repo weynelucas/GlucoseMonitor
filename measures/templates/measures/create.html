@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style media="screen">
+    h1 {
+        text-align: center;
+    }
+    body {
+        font-family: Quicksand;
+    }
+    .form-control {
+        border-radius: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <h1>Registrar medida</h1>
+        <form action="/measures/create" method="post">{% csrf_token %}
+            {{ form.non_filed_errors }}
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag}}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+            {% endfor %}
+            <input type="hidden" name="user" value="{{ request.user.id }}">
+            <button class="btn btn-success" type="submit">Registrar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    $('form').parsley();
+</script>
+{% endblock %}
