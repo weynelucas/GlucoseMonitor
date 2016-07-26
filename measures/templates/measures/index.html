@@ -8,13 +8,16 @@
         <div class="col-md-9">
             <form class="form-box" action="." method="post">{% csrf_token %}
                 <div class="form-box-content">
-                    <div class="input-group">
-                        {{ form.value }}
-                        <span class="input-group-addon">mg/dL</span>
+                    <div class="form-group no-margin">
+                        <div class="input-group">
+                            {{ form.value }}
+                            <span class="input-group-addon">mg/dL</span>
+                        </div>
                     </div>
+
+                    <input type="hidden" name="datetime">
+                    <input type="hidden" name="user" value="{{ request.user.id }}">
                 </div>
-                <input type="hidden" name="datetime">
-                <input type="hidden" name="user" value="{{ request.user.id }}">
             </form>
             <div class="row">
                 <div class="col-md-6">
@@ -63,30 +66,43 @@
             return true;
         });
         // Init parsley validation behavior
-        $("form").parsley();
+        $("form").parsley({
+            errorClass: 'has-error',
+            classHandler: function (el) {
+                return el.$element.closest('.form-group');
+            },
+            errorsContainer: function(el) {
+                return el.$element.closest('.form-group');
+            },
+            errorsWrapper: "<span class='help-block'></span>",
+            errorTemplate: "<span></span>",
+        });
 
 
         // Build the chart
         $('#container').highcharts({
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
                 type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45
+                },
                 style: {
-                    fontFamily: 'Quicksand'
+                    fontFamily: 'Quicksand',
+                    fontSize: '12px',
                 },
             },
+            colors: ['#0288D1', '#8BC34A', '#FFEB3B', '#F44336'],
             title: {
-                text: 'Valores de referência'
+                text: 'Comparação com os valores de referência de diabetes',
             },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            subtitle: {
+                text: 'Fonte: Associação Protectora dos Diabéticos de Portugal (APDP)'
             },
             plotOptions: {
                 pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
+                    innerSize: 70,
+                    depth: 45,
                     dataLabels: {
                         enabled: false
                     },
@@ -94,20 +110,19 @@
                 }
             },
             series: [{
-                name: 'Total',
-                colorByPoint: true,
+                name: 'Medições',
                 data: [{
-                    name: 'Diabetes',
-                    y: {{ stats.diabetes }}
-                }, {
-                    name: 'Pré-diabetes',
-                    y: {{ stats.pre_diabetes }},
+                    name: 'Hipoglicemia',
+                    y: {{ stats.hypoglycemia }}
                 }, {
                     name: 'Normal',
                     y: {{ stats.normal }}
                 }, {
-                    name: 'Hipoglicemia',
-                    y: {{ stats.hypoglycemia }}
+                    name: 'Pré-diabetes',
+                    y: {{ stats.pre_diabetes }}
+                }, {
+                    name: 'Diabetes',
+                    y: {{ stats.diabetes }}
                 }]
             }]
         });
