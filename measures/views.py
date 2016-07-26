@@ -18,7 +18,7 @@ def index(request):
         form = GlucoseMeasureForm()
 
     # Stats queries
-    queryset     = GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime')[:6]
+    queryset     = GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime')[:5]
     hypoglycemia = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__lt=71))
     normal       = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=70, value__lt=101))
     pre_diabetes = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=100, value__lt=127))
