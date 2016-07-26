@@ -14,7 +14,7 @@ class GlucoseMeasureForm(forms.ModelForm):
         widgets = {
             'value'   : forms.NumberInput(attrs=attrs),
             'datetime': forms.DateTimeInput(attrs=attrs),
-            'notes'   : forms.Textarea(attrs={'class': 'form-control', 'cols': 60, 'rows': 3}),
+            'notes'   : forms.Textarea(attrs=attrs),
             'user'    : forms.HiddenInput()
         }
         labels = {

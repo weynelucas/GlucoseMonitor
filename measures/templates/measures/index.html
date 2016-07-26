@@ -1,26 +1,116 @@
 {% extends "base.html"  %}
 
-{% block head %}
-<style media="screen">
-    body {
-        font-family: Quicksand;
-    }
-    .form-control {
-        border-radius: 0;
-    }
-</style>
-{% endblock %}
-
 
 {% block content %}
-<h1>Glucose Monitor</h1>
-<a href="/measures/create">Adicionar Medida</a>
-<ul>
-    {% for measure in measures %}
-    <li>{{ measure.value }} mg/dL | {{ measure.datetime | timesince }} atrás </li>
-    {% empty %}
-    <li>Nenhuma medida encontrada.</li>
-    {% endfor %}
-</ul>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
+            <form class="form-box" action="." method="post">{% csrf_token %}
+                <div class="form-box-content">
+                    <div class="input-group">
+                        {{ form.value }}
+                        <span class="input-group-addon">mg/dL</span>
+                    </div>
+                </div>
+                <input type="hidden" name="datetime">
+                <input type="hidden" name="user" value="{{ request.user.id }}">
+            </form>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="content-box">
+                        <h3 class="content-box-header">Minhas últimas medições</h3>
+                        <div class="content-box-body">
+                            <div class="list-group">
+                                {% for instance in queryset %}
+                                <a href="" class="list-group-item">
+                                    <h4 class="list-group-item-heading">{{ instance.value }} mg/dL</h4>
+                                    <div class="list-group-item-text">{{ instance.datetime | timesince }} atrás</div>
+                                </a>
+                                {% empty %}
+                                <div class="list-group-item">
+                                    Nenhuma medida encontrada.
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="content-box-footer">
+                            <button type="button" class="btn btn-success">Ver todas</button>
+                        </div>
 
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="content-box">
+                        <div id="container" style="min-width: 310px; height: 421.932px; max-width: 600px; margin: 0 auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Add placeholder to value field
+        $("#id_value").attr("placeholder", "Como está o seu nível de glicemia agora ?");
+        // Append current datetime before form submit
+        $("form").submit(function () {
+            $("[name='datetime']").val(moment().format("DD/MM/YYYY HH:mm "));
+            return true;
+        });
+        // Init parsley validation behavior
+        $("form").parsley();
+
+
+        // Build the chart
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie',
+                style: {
+                    fontFamily: 'Quicksand'
+                },
+            },
+            title: {
+                text: 'Valores de referência'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Total',
+                colorByPoint: true,
+                data: [{
+                    name: 'Diabetes',
+                    y: {{ stats.diabetes }}
+                }, {
+                    name: 'Pré-diabetes',
+                    y: {{ stats.pre_diabetes }},
+                }, {
+                    name: 'Normal',
+                    y: {{ stats.normal }}
+                }, {
+                    name: 'Hipoglicemia',
+                    y: {{ stats.hypoglycemia }}
+                }]
+            }]
+        });
+    })
+</script>
 {% endblock %}

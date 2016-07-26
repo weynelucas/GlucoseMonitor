@@ -15,10 +15,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='GlucoseMeasure',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('value', models.DecimalField(decimal_places=2, max_digits=5)),
                 ('datetime', models.DateTimeField()),
-                ('notes', models.CharField(blank=True, null=True, max_length=140)),
+                ('notes', models.CharField(null=True, blank=True, max_length=140)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),

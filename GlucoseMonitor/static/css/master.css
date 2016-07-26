@@ -1,0 +1,60 @@
+body {
+    font-family: Quicksand;
+    background: #e9ebee;
+}
+
+/* Form Box */
+.form-box {
+    margin-top: 25px;
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+}
+
+.form-box-title {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.form-box-content {
+    border-radius: 3px;
+    font-size: 12px;
+    padding: 25px;
+}
+
+.form-box-actions {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+
+
+/* Content Box */
+.content-box {
+    margin-top: 25px;
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+}
+
+.content-box-header {
+    padding: 15px;
+}
+
+.content-box-header h1, h2, h3, h4, h5 {
+    margin: 0;
+}
+
+.content-box-body {
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.content-box-footer {
+    padding: 15px;
+}
+
+/* Remove padding of Bootstrap columns */
+.no-padding {
+   padding: 0 !important;
+}
