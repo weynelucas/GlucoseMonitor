@@ -1,5 +1,16 @@
 {% extends "base.html"  %}
 
+{% block head %}
+<style media="screen">
+    #pie_chart {
+        min-width: 310px;
+        height: 421.932px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}
+
 
 {% block content %}
 <div class="container">
@@ -20,6 +31,7 @@
                 </div>
             </form>
             <div class="row">
+                <!-- Last Measures -->
                 <div class="col-md-6">
                     <div class="content-box">
                         <h3 class="content-box-header">Minhas últimas medições</h3>
@@ -40,13 +52,14 @@
                         <div class="content-box-footer">
                             <button type="button" class="btn btn-success">Ver todas</button>
                         </div>
-
                     </div>
                 </div>
-
+                <!-- Pie Chart -->
                 <div class="col-md-6">
                     <div class="content-box">
-                        <div id="container" style="min-width: 310px; height: 421.932px; max-width: 600px; margin: 0 auto"></div>
+                        <h4 class="content-box-header">Classificação das medidas segundo os valores de referência da diabetes</h4>
+                            <div id="pie_chart"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,13 +69,22 @@
 {% endblock %}
 
 {% block script %}
+<script src="/static/measures/js/render_charts.js" charset="utf-8"></script>
 <script type="text/javascript">
+    var measures_stats = {
+        hypoglycemia: {{ measures_stats.hypoglycemia }},
+        normal      : {{ measures_stats.normal }},
+        pre_diabetes: {{ measures_stats.pre_diabetes }},
+        diabetes    : {{ measures_stats.diabetes }},
+    }
+
+
     $(document).ready(function () {
         // Add placeholder to value field
         $("#id_value").attr("placeholder", "Como está o seu nível de glicemia agora ?");
         // Append current datetime before form submit
         $("form").submit(function () {
-            $("[name='datetime']").val(moment().format("DD/MM/YYYY HH:mm "));
+            $("[name='datetime']").val(moment().format("DD/MM/YYYY HH:mm"));
             return true;
         });
         // Init parsley validation behavior
@@ -77,55 +99,8 @@
             errorsWrapper: "<span class='help-block'></span>",
             errorTemplate: "<span></span>",
         });
-
-
-        // Build the chart
-        $('#container').highcharts({
-            chart: {
-                type: 'pie',
-                options3d: {
-                    enabled: true,
-                    alpha: 45
-                },
-                style: {
-                    fontFamily: 'Quicksand',
-                    fontSize: '12px',
-                },
-            },
-            colors: ['#0288D1', '#8BC34A', '#FFEB3B', '#F44336'],
-            title: {
-                text: 'Comparação com os valores de referência de diabetes',
-            },
-            subtitle: {
-                text: 'Fonte: Associação Protectora dos Diabéticos de Portugal (APDP)'
-            },
-            plotOptions: {
-                pie: {
-                    innerSize: 70,
-                    depth: 45,
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                name: 'Medições',
-                data: [{
-                    name: 'Hipoglicemia',
-                    y: {{ stats.hypoglycemia }}
-                }, {
-                    name: 'Normal',
-                    y: {{ stats.normal }}
-                }, {
-                    name: 'Pré-diabetes',
-                    y: {{ stats.pre_diabetes }}
-                }, {
-                    name: 'Diabetes',
-                    y: {{ stats.diabetes }}
-                }]
-            }]
-        });
+        // Render charts
+        renderPieChart(measures_stats);
     })
 </script>
 {% endblock %}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import GlucoseMeasureForm
 from .models import GlucoseMeasure
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from datetime import datetime
 
 # Create your views here.
@@ -11,27 +12,28 @@ def index(request):
         form = GlucoseMeasureForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Medição adicionada com sucesso')
             return redirect(index)
     else:
         form = GlucoseMeasureForm()
 
     # Stats queries
-    queryset     = GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime')[:5]
-    hypoglycemia = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__lt=70))
-    normal       = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=70, value__lt=100))
-    pre_diabetes = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=100, value__lt=126))
+    queryset     = GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime')[:6]
+    hypoglycemia = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__lt=71))
+    normal       = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=70, value__lt=101))
+    pre_diabetes = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=100, value__lt=127))
     diabetes     = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=126))
 
 
     context = {
         'form': form,
         'queryset': queryset,
-        'stats': {
+        'measures_stats': {
             'hypoglycemia': hypoglycemia,
             'normal': normal,
             'pre_diabetes': pre_diabetes,
             'diabetes': diabetes,
-        }
+        },
     }
     return render(request, 'measures/index.html', context)
 
