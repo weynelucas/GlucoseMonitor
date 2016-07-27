@@ -2,82 +2,29 @@
 {% load bootstrap_pagination %}
 
 {% block main_content %}
-
-<div class="row">
-    <div class="col-md-7">
-        {% for instance in queryset %}
-        <div class="content-box">
-            <div class="content-box-body">
-                <div class="row">
-                    <div class="col-md-10 col-xs-6">
-                        <h3>{{ instance.value }} mg/dL</h3>
-                        <h5>{{ instance.datetime | date }} às {{ instance.datetime | time }}</h5>
-                    </div>
-                    <div class="col-md-2 col-xs-6">
-                        <div class="content-box-actions right">
-                        </div>
-                    </div>
+{% for instance in queryset %}
+<div class="content-box">
+    <div class="content-box-body">
+        <div class="row">
+            <div class="col-md-10 col-xs-6">
+                <h3>{{ instance.value }} mg/dL</h3>
+            </div>
+            <div class="col-md-2 col-xs-6">
+                <div class="content-box-actions right">
                 </div>
             </div>
         </div>
-        {% endfor %}
-        {% if queryset.paginator.num_pages > 1 %}
-        <div class="text-center">
-            {% bootstrap_paginate queryset %}
-        </div>
-        {% endif %}
     </div>
-
-    <div class="col-md-5">
-        <form class="form-box" role="search" action="/measures/list" method="get">
-            <div class="form-box-content">
-                <label for="">Período</label>
-
-                <div class="form-group no-margin">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class='input-group input-group-sm date' id="initial_date">
-                                <input type='text' name="initial_date" class="form-control" placeholder="Início"/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <div class='input-group input-group-sm date' id='final_date'>
-                                    <input type='text' name="final_date" class="form-control" placeholder="Fim"/>
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <label for="type">Tipo</label>
-                        <select id="type" name="type" class="form-control" name="">
-                            <option value="JJ">Jejum</option>
-                            <option value="PF">Pós-Refeição</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-box-actions">
-                <button type="submit" class="btn btn-success">Procurar</button>
-            </div>
-        </form>
+    <div class="content-box-footer">
+        <i class="glyphicon glyphicon-calendar"></i> {{ instance.datetime | date }} <i class="glyphicon glyphicon-time"></i> {{ instance.datetime | time }}
     </div>
 </div>
-
-
-
-
-
-
+{% endfor %}
+{% if queryset.paginator.num_pages > 1 %}
+<div class="text-center">
+    {% bootstrap_paginate queryset %}
+</div>
+{% endif %}
 {% endblock %}
 
 

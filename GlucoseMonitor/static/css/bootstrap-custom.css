@@ -11,5 +11,14 @@
 }
 
 .list-group {
-    margin-bottom: 0
+    margin-bottom: 0;
+}
+
+.btn {
+    border-radius: 0;
+    text-transform: uppercase;;
+}
+
+.list-group-item:first-child {
+    border-top: none;
 }

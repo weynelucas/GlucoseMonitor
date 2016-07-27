@@ -43,3 +43,57 @@ function renderPieChart(data) {
         }]
     });
 }
+
+
+
+function renderLineChart(data) {
+    $('#line_chart').highcharts({
+        chart: {
+            type: 'area',
+            style: {
+                fontFamily: 'Quicksand',
+                fontSize: '12px',
+            },
+        },
+        colors: ["#F44336", "#7798BF"],
+        title: {
+            text: ''
+        },
+        xAxis: {
+            allowDecimals: false,
+            labels: {
+                formatter: function () {
+                    return this.value; // clean, unformatted number for year
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Nível de glicose (mg/dL)'
+            },
+        },
+        tooltip: {
+            pointFormat: '{series.name} produced <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+        },
+        plotOptions: {
+            area: {
+                pointStart: 1940,
+                lineWidth: 1.5,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'USA',
+            data: data
+            }]
+            });
+        }

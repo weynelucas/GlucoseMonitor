@@ -4,9 +4,14 @@
 <style media="screen">
     #pie_chart {
         min-width: 310px;
-        height: 346.491px;
+        height: 316.007px;
         max-width: 600px;
         margin: 0 auto;
+    }
+    #line_chart {
+        min-width: 310px;
+        height: 300px;
+        margin: 0 auto
     }
 </style>
 {% endblock %}
@@ -46,7 +51,7 @@
                 </div>
             </div>
             <div class="content-box-footer">
-                <a type="button" href="/measures/list" class="btn btn-success">Ver todas</a>
+                <a type="button" href="/measures/list" class="btn btn-danger fill-parent">Ver todas</a>
             </div>
         </div>
     </div>
@@ -54,15 +59,28 @@
     <div class="col-md-6">
         <div class="content-box">
             <h4 class="content-box-header">Classificação das medidas segundo os valores de referência da diabetes</h4>
-            <div id="pie_chart"></div>
+            <div class="content-box-body">
+                <div id="pie_chart"></div>
+            </div>
         </div>
     </div>
 </div>
+
+<div class="content-box">
+    <div class="content-box-header">
+        <h4>Histórico de medições</h4>
+    </div>
+    <div class="content-box-body">
+        <div id="line_chart"></div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block script %}
 <script src="/static/measures/js/render_charts.js" charset="utf-8"></script>
 <script type="text/javascript">
+    var values_list = {{ values_list }}
     var measures_stats = {
         hypoglycemia: {{ measures_stats.hypoglycemia }},
         normal      : {{ measures_stats.normal }},
@@ -93,6 +111,7 @@
         });
         // Render charts
         renderPieChart(measures_stats);
+        renderLineChart(values_list);
     })
 </script>
 {% endblock %}

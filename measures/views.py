@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import json
+from measures.models import DecimalEncoder
 
 # Create your views here.
 @login_required
@@ -25,6 +27,7 @@ def index(request):
     pre_diabetes = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=100, value__lte=126).count()
     diabetes     = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=126).count()
 
+    values_list = list(GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime').values_list('value', flat=True))
 
     context = {
         'form': form,
@@ -35,11 +38,12 @@ def index(request):
             'pre_diabetes': pre_diabetes,
             'diabetes': diabetes,
         },
+        'values_list': json.dumps(values_list, cls=DecimalEncoder),
     }
     return render(request, 'measures/index.html', context)
 
 @login_required
-def list(request):
+def list_e(request):
     initial_date = datetime.strptime(request.GET.get('initial_date','11/06/2016 00:00'), "%d/%m/%Y %H:%M").date()
     final_date = datetime.strptime(request.GET.get('finall_date','11/06/2030 00:00'), "%d/%m/%Y %H:%M").date()
     queryset = GlucoseMeasure.objects.filter(datetime__gte=initial_date, datetime__lte=final_date)
