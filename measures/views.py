@@ -40,7 +40,9 @@ def index(request):
 
 @login_required
 def list(request):
-    queryset = GlucoseMeasure.objects.all()
+    initial_date = datetime.strptime(request.GET.get('initial_date','11/06/2016 00:00'), "%d/%m/%Y %H:%M").date()
+    final_date = datetime.strptime(request.GET.get('finall_date','11/06/2030 00:00'), "%d/%m/%Y %H:%M").date()
+    queryset = GlucoseMeasure.objects.filter(datetime__gte=initial_date, datetime__lte=final_date)
     paginator = Paginator(queryset, 15)
     page = request.GET.get('page', 1)
 
