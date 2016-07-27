@@ -1,4 +1,4 @@
-{% extends "base.html"  %}
+{% extends "measures/base.html"  %}
 
 {% block head %}
 <style media="screen">
@@ -12,57 +12,49 @@
 {% endblock %}
 
 
-{% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9">
-            <form class="form-box" action="." method="post">{% csrf_token %}
-                <div class="form-box-content">
-                    <div class="form-group no-margin">
-                        <div class="input-group">
-                            {{ form.value }}
-                            <span class="input-group-addon">mg/dL</span>
-                        </div>
-                    </div>
+{% block main_content %}
+<form class="form-box" action="." method="post">{% csrf_token %}
+    <div class="form-box-content">
+        <div class="form-group no-margin">
+            <div class="input-group">
+                {{ form.value }}
+                <span class="input-group-addon">mg/dL</span>
+            </div>
+        </div>
 
-                    <input type="hidden" name="datetime">
-                    <input type="hidden" name="user" value="{{ request.user.id }}">
-                </div>
-            </form>
-            <div class="row">
-                <!-- Last Measures -->
-                <div class="col-md-6">
-                    <div class="content-box">
-                        <h4 class="content-box-header">Minhas últimas medições</h4>
-                        <div class="content-box-body">
-                            <div class="list-group">
-                                {% for instance in queryset %}
-                                <a href="" class="list-group-item">
-                                    <h4 class="list-group-item-heading">{{ instance.value }} mg/dL</h4>
-                                    <div class="list-group-item-text">{{ instance.datetime | timesince }} atrás</div>
-                                </a>
-                                {% empty %}
-                                <div class="list-group-item">
-                                    Nenhuma medida encontrada.
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="content-box-footer">
-                            <button type="button" class="btn btn-success">Ver todas</button>
-                        </div>
+        <input type="hidden" name="datetime">
+        <input type="hidden" name="user" value="{{ request.user.id }}">
+    </div>
+</form>
+<div class="row">
+    <!-- Last Measures -->
+    <div class="col-md-6">
+        <div class="content-box">
+            <h4 class="content-box-header">Minhas últimas medições</h4>
+            <div class="content-box-body no-padding">
+                <div class="list-group">
+                    {% for instance in queryset %}
+                    <a href="" class="list-group-item">
+                        <h4 class="list-group-item-heading">{{ instance.value }} mg/dL</h4>
+                        <div class="list-group-item-text">{{ instance.datetime | timesince }} atrás</div>
+                    </a>
+                    {% empty %}
+                    <div class="list-group-item">
+                        Nenhuma medida encontrada.
                     </div>
-                </div>
-                <!-- Pie Chart -->
-                <div class="col-md-6">
-                    <div class="content-box">
-                        <h4 class="content-box-header">Classificação das medidas segundo os valores de referência da diabetes</h4>
-                            <div id="pie_chart"></div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
+            <div class="content-box-footer">
+                <a type="button" href="/measures/list" class="btn btn-success">Ver todas</a>
+            </div>
+        </div>
+    </div>
+    <!-- Pie Chart -->
+    <div class="col-md-6">
+        <div class="content-box">
+            <h4 class="content-box-header">Classificação das medidas segundo os valores de referência da diabetes</h4>
+            <div id="pie_chart"></div>
         </div>
     </div>
 </div>

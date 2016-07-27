@@ -1,0 +1,72 @@
+{% extends "measures/base.html" %}
+{% load bootstrap_pagination %}
+
+{% block main_content %}
+
+<form class="form-box form-inline right" role="search" action="/measures/list" method="get">
+    <div class="form-box-content">
+        <div class="form-group no-margin">
+            <div class='input-group input-group-sm date' id="initial_date">
+                <input type='text' name="initial_date" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+        à
+        <div class="form-group no-margin">
+            <div class='input-group input-group-sm date' id='final_date'>
+                <input type='text' name="final_date" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% for instance in queryset %}
+<div class="content-box">
+    <div class="content-box-body">
+        <div class="row">
+            <div class="col-md-10 col-xs-6">
+                <h3>{{ instance.value }} mg/dL</h3>
+                <h5>{{ instance.datetime | date }} às {{ instance.datetime | time }}</h5>
+            </div>
+            <div class="col-md-2 col-xs-6">
+                <div class="content-box-actions right">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% if queryset.paginator.num_pages > 1 %}
+<div class="text-center">
+    {% bootstrap_paginate queryset %}
+</div>
+{% endif %}
+
+{% endblock %}
+
+
+
+{% block script %}
+<script type="text/javascript">
+    $("#initial_date").datetimepicker({
+        locale: 'pt-br'
+    });
+    $("#final_date").datetimepicker({
+        locale: 'pt-br',
+        useCurrent: true
+    });
+    // Linked datetime pickers
+    $("#initial_date").on("dp.change", function (e) {
+        $('#final_date').data("DateTimePicker").minDate(e.date);
+    });
+    $("#final_date").on("dp.change", function (e) {
+        $('#initial_date').data("DateTimePicker").maxDate(e.date);
+    });
+</script>
+{% endblock %}

@@ -1,21 +1,15 @@
-.form-control {
-    border-radius: 0;
-}
-
-.input-group-addon {
+/* Remove border-radius */
+.form-control,
+.input-group-addon,
+.input-group-sm>.form-control,
+.input-group-sm>.input-group-addon,
+.input-group-sm>.input-group-btn>.btn,
+.list-group-item:first-child,
+.list-group-item:first-child,
+.list-group-item:last-child {
     border-radius: 0;
 }
 
 .list-group {
-    border-radius: 0;
-    margin-bottom: 0;
-}
-
-.list-group-item:first-child {
-    border-radius: 0;
-}
-
-.list-group-item:first-child,
-.list-group-item:last-child {
-    border-radius: 0;
+    margin-bottom: 0
 }

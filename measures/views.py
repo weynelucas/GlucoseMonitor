@@ -4,6 +4,7 @@ from .models import GlucoseMeasure
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 @login_required
@@ -19,10 +20,10 @@ def index(request):
 
     # Stats queries
     queryset     = GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime')[:5]
-    hypoglycemia = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__lt=71))
-    normal       = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=70, value__lt=101))
-    pre_diabetes = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=100, value__lt=127))
-    diabetes     = len(GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=126))
+    hypoglycemia = GlucoseMeasure.objects.filter(user__id=request.user.id, value__lte=70).count()
+    normal       = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=70, value__lte=100).count()
+    pre_diabetes = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=100, value__lte=126).count()
+    diabetes     = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=126).count()
 
 
     context = {
@@ -36,6 +37,26 @@ def index(request):
         },
     }
     return render(request, 'measures/index.html', context)
+
+@login_required
+def list(request):
+    queryset = GlucoseMeasure.objects.all()
+    paginator = Paginator(queryset, 15)
+    page = request.GET.get('page', 1)
+
+    try:
+        paginated_list = paginator.page(page)
+    except PageNotAnInteger:
+        paginated_list = paginator.page(1)
+    except EmptyPage:
+        paginated_list = paginator.page(paginator.num_pages)
+
+    context = {
+        'queryset': paginated_list,
+    }
+
+    return render(request, 'measures/list.html', context)
+
 
 @login_required
 def create(request):

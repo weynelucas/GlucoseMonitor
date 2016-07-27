@@ -6,6 +6,7 @@ body {
 /* Form Box */
 .form-box {
     margin-top: 25px;
+    margin-bottom: 25px;
     background-color: #fff;
     border: 1px solid;
     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
@@ -28,6 +29,10 @@ body {
     border-top: 1px solid #e5e5e5;
 }
 
+.form-box.form-inline.right {
+    text-align: right;
+}
+
 
 /* Content Box */
 .content-box {
@@ -35,10 +40,6 @@ body {
     background-color: #fff;
     border: 1px solid;
     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
-}
-
-.content-box:first-child {
-    margin-top: 25px;
 }
 
 .content-box-header {
@@ -52,6 +53,12 @@ body {
 .content-box-body {
     border-radius: 3px;
     font-size: 12px;
+    padding: 15px;
+}
+
+.content-box-actions.right {
+    text-align: right;
+    line-height: 40px;
 }
 
 .content-box-footer {

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'measures.apps.MeasuresConfig',
     'parsley',
+    'bootstrap_pagination',
 ]
 
 MIDDLEWARE_CLASSES = [
