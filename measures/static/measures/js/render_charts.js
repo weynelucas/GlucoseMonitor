@@ -6,10 +6,6 @@ function renderPieChart(data) {
                 enabled: true,
                 alpha: 45
             },
-            style: {
-                fontFamily: 'Quicksand',
-                fontSize: '12px',
-            },
         },
         colors: ['#0288D1', '#8BC34A', '#FFEB3B', '#F44336'],
         title: {
@@ -44,24 +40,22 @@ function renderPieChart(data) {
     });
 }
 
-
-
 function renderLineChart(data, labels) {
     $('#line_chart').highcharts({
         chart: {
             type: 'area',
-            style: {
-                fontFamily: 'Quicksand',
-                fontSize: '12px',
-            },
         },
         colors: ["#d9534f", "#7798BF"],
         title: {
             text: ''
         },
         xAxis: {
-            allowDecimals: false,
+            type: 'datetime',
             categories: labels,
+            minTickInterval: 5,
+            labels: {
+                rotation: -45,
+            }
         },
         yAxis: {
             title: {
@@ -88,7 +82,7 @@ function renderLineChart(data, labels) {
         },
         series: [{
             name: 'Nível de glicose',
-            data: data
-            }]
-            });
-        }
+            data: data,
+        }]
+    });
+}
