@@ -12,6 +12,9 @@ body {
     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
 }
 .form-box-title {
+    border-color: #d9534f;
+    border-width: 3px 0 0;
+    border-style: solid solid none;
     padding: 15px;
     border-bottom: 1px solid #e5e5e5;
 }
@@ -39,13 +42,26 @@ body {
     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
 }
 .content-box-header {
-    border-color: #F44336;
+    border-color: #d9534f;
     border-width: 3px 0 0;
     border-style: solid solid none;
     padding: 15px;
 }
 .content-box-header h1, h2, h3, h4, h5 {
     margin: 0;
+}
+.content-box-help {
+    line-height: 39px;
+
+}
+.content-box-help a {
+    color: #d9534f;
+    text-align: right;
+}
+.content-box-help a:hover,
+.content-box-help a:focus {
+    cursor: pointer;
+    color: rgb(201,48,44);
 }
 .content-box-body {
     border-radius: 3px;
@@ -72,7 +88,7 @@ body {
     margin: 0;
 }
 
-/* Full width components */ 
+/* Full width components */
 .fill-parent {
     width: 100%;
 }

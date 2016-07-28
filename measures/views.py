@@ -1,14 +1,13 @@
-from django.shortcuts import render, redirect
-from .forms import GlucoseMeasureForm
-from .models import GlucoseMeasure
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from datetime import datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import json
-from measures.models import DecimalEncoder
+from datetime import datetime, timedelta, time
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from measures.encoders import DecimalEncoder, DateTimeEncoder
+from measures.forms import GlucoseMeasureForm
+from measures.models import GlucoseMeasure
 
-# Create your views here.
 @login_required
 def index(request):
     if request.method == 'POST':
@@ -20,58 +19,36 @@ def index(request):
     else:
         form = GlucoseMeasureForm()
 
-    # Stats queries
-    queryset     = GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime')[:5]
-    hypoglycemia = GlucoseMeasure.objects.filter(user__id=request.user.id, value__lte=70).count()
-    normal       = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=70, value__lte=100).count()
-    pre_diabetes = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=100, value__lte=126).count()
-    diabetes     = GlucoseMeasure.objects.filter(user__id=request.user.id, value__gt=126).count()
+    # Genrerate query period
+    today = datetime.now()
+    final_date   = datetime.combine(today, time.max)
+    initial_date = datetime.combine(today - timedelta(days=30), time.min)
 
-    values_list = list(GlucoseMeasure.objects.filter(user__id=request.user.id).order_by('-datetime').values_list('value', flat=True))
+    queryset = GlucoseMeasure.objects.filter(
+        user__id      = request.user.id,
+        datetime__gte = initial_date,
+        datetime__lte = final_date
+    ).order_by('-datetime')
 
+    # Projections data
+    values    = list(queryset.reverse().values_list('value', flat=True))
+    datetimes = list(queryset.reverse().values_list('datetime', flat=True))
+
+    # Context dict
     context = {
         'form': form,
         'queryset': queryset,
-        'measures_stats': {
-            'hypoglycemia': hypoglycemia,
-            'normal': normal,
-            'pre_diabetes': pre_diabetes,
-            'diabetes': diabetes,
+        'last'    : queryset[:5],
+        'distribution': {
+            'hypo': queryset.filter(value__lte=70).count(),
+            'norm': queryset.filter(value__gt=70, value__lte=100).count(),
+            'pre' : queryset.filter(value__gt=100, value__lte=126).count(),
+            'high': queryset.filter(value__gt=126).count(),
         },
-        'values_list': json.dumps(values_list, cls=DecimalEncoder),
+        'overlay': {
+            'data'  : json.dumps(values,    cls=DecimalEncoder),
+            'labels': json.dumps(datetimes, cls=DateTimeEncoder),
+        }
     }
+
     return render(request, 'measures/index.html', context)
-
-@login_required
-def list_e(request):
-    initial_date = datetime.strptime(request.GET.get('initial_date','11/06/2016 00:00'), "%d/%m/%Y %H:%M").date()
-    final_date = datetime.strptime(request.GET.get('finall_date','11/06/2030 00:00'), "%d/%m/%Y %H:%M").date()
-    queryset = GlucoseMeasure.objects.filter(datetime__gte=initial_date, datetime__lte=final_date)
-    paginator = Paginator(queryset, 15)
-    page = request.GET.get('page', 1)
-
-    try:
-        paginated_list = paginator.page(page)
-    except PageNotAnInteger:
-        paginated_list = paginator.page(1)
-    except EmptyPage:
-        paginated_list = paginator.page(paginator.num_pages)
-
-    context = {
-        'queryset': paginated_list,
-    }
-
-    return render(request, 'measures/list.html', context)
-
-
-@login_required
-def create(request):
-    if request.method == 'POST':
-        form = GlucoseMeasureForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            form.save()
-            return redirect(index)
-    else:
-        form = GlucoseMeasureForm()
-    return render(request, 'measures/create.html', {'form': list(form)[:3]})

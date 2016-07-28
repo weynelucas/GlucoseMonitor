@@ -26,19 +26,19 @@ function renderPieChart(data) {
             }
         },
         series: [{
-            name: 'Medições',
+            name: 'Registros',
             data: [{
                 name: 'Hipoglicemia',
-                y: data.hypoglycemia
+                y: data.hypo
             }, {
                 name: 'Normal',
-                y: data.normal
+                y: data.norm
             }, {
                 name: 'Pré-diabetes',
-                y: data.pre_diabetes
+                y: data.pre
             }, {
                 name: 'Diabetes',
-                y: data.diabetes
+                y: data.high
             }]
         }]
     });
@@ -46,7 +46,7 @@ function renderPieChart(data) {
 
 
 
-function renderLineChart(data) {
+function renderLineChart(data, labels) {
     $('#line_chart').highcharts({
         chart: {
             type: 'area',
@@ -55,17 +55,13 @@ function renderLineChart(data) {
                 fontSize: '12px',
             },
         },
-        colors: ["#F44336", "#7798BF"],
+        colors: ["#d9534f", "#7798BF"],
         title: {
             text: ''
         },
         xAxis: {
             allowDecimals: false,
-            labels: {
-                formatter: function () {
-                    return this.value; // clean, unformatted number for year
-                }
-            }
+            categories: labels,
         },
         yAxis: {
             title: {
@@ -73,11 +69,10 @@ function renderLineChart(data) {
             },
         },
         tooltip: {
-            pointFormat: '{series.name} produced <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+            pointFormat: '{series.name}: {point.y:,.2f}<br/> mg/dL'
         },
         plotOptions: {
             area: {
-                pointStart: 1940,
                 lineWidth: 1.5,
                 marker: {
                     enabled: false,
@@ -92,7 +87,7 @@ function renderLineChart(data) {
             }
         },
         series: [{
-            name: 'USA',
+            name: 'Nível de glicose',
             data: data
             }]
             });
