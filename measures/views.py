@@ -19,7 +19,7 @@ def index(request):
     else:
         form = GlucoseMeasureForm()
 
-    # Genrerate query period
+    # Generate query period
     today = datetime.now()
     final_date   = datetime.combine(today, time.max)
     initial_date = datetime.combine(today - timedelta(days=30), time.min)
