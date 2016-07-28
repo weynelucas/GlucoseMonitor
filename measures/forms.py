@@ -10,12 +10,13 @@ attrs = {
 class GlucoseMeasureForm(forms.ModelForm):
     class Meta:
         model = GlucoseMeasure
-        fields = ['value', 'datetime', 'notes', 'user']
+        fields = ['value', 'datetime', 'notes', 'measure_type', 'user']
         widgets = {
-            'value'   : forms.NumberInput(attrs=attrs),
-            'datetime': forms.DateTimeInput(attrs=attrs),
-            'notes'   : forms.Textarea(attrs=attrs),
-            'user'    : forms.HiddenInput()
+            'value'       : forms.NumberInput(attrs=attrs),
+            'datetime'    : forms.DateTimeInput(attrs=attrs),
+            'notes'       : forms.Textarea(attrs=attrs),
+            'measure_type': forms.Select(attrs=attrs),
+            'user'        : forms.HiddenInput()
         }
         labels = {
             'value'   : 'Valor',

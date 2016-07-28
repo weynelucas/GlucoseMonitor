@@ -19,7 +19,7 @@ def index(request):
     else:
         form = GlucoseMeasureForm()
 
-    # Genrerate query period
+    # Generate query period
     today = datetime.now()
     final_date   = datetime.combine(today, time.max)
     initial_date = datetime.combine(today - timedelta(days=30), time.min)
@@ -30,9 +30,13 @@ def index(request):
         datetime__lte = final_date
     ).order_by('-datetime')
 
+    # Measure type queryset separation
+    fst_queryset = queryset.filter(measure_type='FST')
+    afm_queryset = queryset.filter(measure_type='AFM')
+
     # Projections data
-    values    = list(queryset.reverse().values_list('value', flat=True))
-    datetimes = list(queryset.reverse().values_list('datetime', flat=True))
+    values     = list(queryset.reverse().values_list('value', flat=True))
+    datetimes  = list(queryset.reverse().values_list('datetime', flat=True))
 
     # Context dict
     context = {
@@ -40,10 +44,10 @@ def index(request):
         'queryset': queryset,
         'last'    : queryset[:5],
         'distribution': {
-            'hypo': queryset.filter(value__lte=70).count(),
-            'norm': queryset.filter(value__gt=70, value__lte=100).count(),
-            'pre' : queryset.filter(value__gt=100, value__lte=126).count(),
-            'high': queryset.filter(value__gt=126).count(),
+            'hypo': fst_queryset.filter(value__lte=70).count() + afm_queryset.filter(value__lte=70).count(),
+            'norm': fst_queryset.filter(value__gt=70,  value__lte=100).count() + afm_queryset.filter(value__gt=70,  value__lte=140).count(),
+            'pre' : fst_queryset.filter(value__gt=100, value__lte=126).count() + afm_queryset.filter(value__gt=140, value__lte=200).count(),
+            'high': fst_queryset.filter(value__gt=126).count() + afm_queryset.filter(value__gt=200).count(),
         },
         'overlay': {
             'data'  : json.dumps(values,    cls=DecimalEncoder),

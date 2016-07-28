@@ -81,8 +81,8 @@ function renderLineChart(data, labels) {
             }
         },
         series: [{
-            name: 'Nível de glicose',
+            name: 'NÍVEL DE GLICOSE',
             data: data,
-        }]
+        }],
     });
 }
