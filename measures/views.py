@@ -124,5 +124,6 @@ def edit_measure(request, id):
 
     context = {
         'form': form,
+        'return_path': path,
     }
     return render(request, 'measures/edit.html', context)

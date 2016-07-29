@@ -74,7 +74,9 @@ body {
 }
 .content-box-footer {
     padding: 15px;
+    border-top: 1px solid #e5e5e5;
 }
+
 
 /* Remove padding and margin of Bootstrap components */
 .no-padding {
@@ -103,6 +105,11 @@ body {
 }
 .f-left {
     float: left;
+}
+
+/* Display pointer */
+.pointer {
+    cursor: pointer;
 }
 
 /* Measures types tags*/

@@ -30,12 +30,12 @@
                     </div>
                     <div class="col-md-5">
                         <div class="dropdown f-right">
-                            <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Ações
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="/measures/edit/{{ instance.id }}"><i class="glyphicon glyphicon-pencil" style="margin-right: 10px"></i> EDITAR</a></li>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                <li><a href="/measures/edit/{{ instance.id }}?return_path={{ request.get_full_path }}"><i class="glyphicon glyphicon-pencil" style="margin-right: 10px"></i> EDITAR</a></li>
                                 <li><a href="#" onclick="displayDeleteAlert({{ instance.id }})"><i class="glyphicon glyphicon-trash"  style="margin-right: 10px"></i> EXCLUIR</a></li>
                             </ul>
                         </div>

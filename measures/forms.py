@@ -3,7 +3,10 @@ from measures.models import GlucoseMeasure
 from parsley.decorators import parsleyfy
 
 attrs = {
-    'class': 'form-control',
+    'value'       : {'class': 'form-control'} ,
+    'datetime'    : {'class': 'form-control'} ,
+    'measure_type': {'class': 'form-control'} ,
+    'notes'       : {'class': 'form-control', 'rows': 6} ,
 }
 
 @parsleyfy
@@ -12,17 +15,17 @@ class GlucoseMeasureForm(forms.ModelForm):
         model = GlucoseMeasure
         fields = ['measure_type', 'value', 'datetime', 'notes', 'user']
         widgets = {
-            'value'       : forms.NumberInput(attrs=attrs),
-            'datetime'    : forms.DateTimeInput(attrs=attrs),
-            'notes'       : forms.Textarea(attrs=attrs),
-            'measure_type': forms.Select(attrs=attrs),
+            'value'       : forms.NumberInput(attrs=attrs['value']),
+            'datetime'    : forms.DateTimeInput(attrs=attrs['datetime']),
+            'notes'       : forms.Textarea(attrs=attrs['notes']),
+            'measure_type': forms.Select(attrs=attrs['measure_type']),
             'user'        : forms.HiddenInput()
         }
         labels = {
             'value'       : 'Valor',
-            'datetime'    : 'Dia e horário',
+            'datetime'    : 'Data/Hora',
             'notes'       : 'Notas',
-            'measure_type': 'Tipe de medição',
+            'measure_type': 'Tipo',
             'user'        : 'Usuário',
         }
         parsley_extras = {
@@ -34,6 +37,6 @@ class GlucoseMeasureForm(forms.ModelForm):
             },
             'datetime': {
                 'pattern'         : '^([0-2][0-9]|[3][0-1])/([0][1-9]|[1][0-2])\/(\d{4})\ ([0-1][0-9]|[2][0-3])\:([0-5][0-9])(:([0-5][0-9]))?$',
-                'pattern-message' : 'Por favor insira uma data no formato válido (dd/mm/aaaa hh:mm:ss).',
+                'pattern-message' : 'Por favor insira uma data/hora válida.',
             }
         }

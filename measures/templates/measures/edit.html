@@ -1,21 +1,55 @@
 {% extends "measures/base.html" %}
 
 {% block main_content %}
-<form class="content-box" action="{{ request.path }}" method="post">{% csrf_token %}
+<form class="content-box" action="{{ request.path }}?return_path={{ return_path }}" method="post">{% csrf_token %}
     <h2 class="content-box-header">Editar Medição</h2>
     <div class="content-box-body">
-        {% for field in form %}
-        <div class="form-group">
-            <div class="input-group">
-                {{ field.label_tag }}
-                {{ field }}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <!-- Measure Type -->
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            {{ form.measure_type.label_tag }}
+                            {{ form.measure_type }}
+                        </div>
+                        {{ form.measure_type.errors }}
+                    </div>
+                    <!-- Value -->
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            {{ form.value.label_tag }}
+                            {{ form.value }}
+                        </div>
+                        {{ form.value.errors }}
+                    </div>
+                </div>
+                <!-- Datetime -->
+                <div class="form-group">
+                    {{ form.datetime.label_tag }}
+                    <div id="datetime_picker" class="input-group">
+                        {{ form.datetime }}
+                        <span class="input-group-addon pointer">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    {{ form.datetime.errors }}
+                </div>
+                <!-- Notes -->
+                <div class="form-group">
+                    <div class="input-group fill-parent">
+                        {{ form.notes.label_tag }}
+                        {{ form.notes }}
+                    </div>
+                    {{ form.notes.errors }}
+                </div>
+                <!-- User (hidden) -->
+                <input type="hidden" name="user" value="{{ request.user.id }}">
             </div>
-            {{ field.errors }}
         </div>
-        {% endfor %}
-
     </div>
     <div class="content-box-footer t-right">
+        <a href="{{ return_path }}"class="btn btn-default" type="submit">Voltar</a>
         <button class="btn btn-danger" type="submit">Editar</button>
     </div>
 </form>
@@ -26,6 +60,10 @@
 <script type="text/javascript">
     $(function () {
         validateForm();
+        $('#datetime_picker').datetimepicker({
+            locale: 'pt-br',
+            maxDate: new Date(),
+        });
     });
 </script>
 {% endblock %}
