@@ -109,7 +109,11 @@ def delete_measure (request, id):
 @login_required
 def edit_measure(request, id):
     path = request.GET.get('return_path', '/measures/list')
+    # User only can edit your own measures
     instance = get_object_or_404(GlucoseMeasure, pk=id)
+    if instance.user.id != request.user.id:
+        raise Http404
+
     form =  GlucoseMeasureForm(request.POST or None, instance=instance)
 
     if request.method == 'POST':
