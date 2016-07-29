@@ -2,6 +2,9 @@
 {% load bootstrap_pagination %}
 
 {% block main_content %}
+
+{% include "measures/modal/delete_alert.html" %}
+
 <div class="content-box">
     <div class="content-box-header">
         <div class="row">
@@ -33,7 +36,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a href="#"><i class="glyphicon glyphicon-pencil" style="margin-right: 10px"></i> EDITAR</a></li>
-                                <li><a href="#"><i class="glyphicon glyphicon-trash"  style="margin-right: 10px"></i> EXCLUIR</a></li>
+                                <li><a href="#" onclick="displayDeleteAlert({{ instance.id }})"><i class="glyphicon glyphicon-trash"  style="margin-right: 10px"></i> EXCLUIR</a></li>
                             </ul>
                         </div>
                     </div>
@@ -57,19 +60,9 @@
 
 {% block script %}
 <script type="text/javascript">
-$("#initial_date").datetimepicker({
-    locale: 'pt-br'
-});
-$("#final_date").datetimepicker({
-    locale: 'pt-br',
-    useCurrent: true
-});
-// Linked datetime pickers
-$("#initial_date").on("dp.change", function (e) {
-    $('#final_date').data("DateTimePicker").minDate(e.date);
-});
-$("#final_date").on("dp.change", function (e) {
-    $('#initial_date').data("DateTimePicker").maxDate(e.date);
-});
+function displayDeleteAlert (id) {
+    $('#alertModal a:last-child').attr('href', '/measures/delete/' + id + '?return_path=' + window.location.pathname + window.location.search);
+    $('#alertModal').modal();
+}
 </script>
 {% endblock %}

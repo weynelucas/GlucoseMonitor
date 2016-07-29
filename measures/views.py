@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timedelta, time
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -90,3 +90,17 @@ def measures_list(request):
         'queryset': paginated_list,
     }
     return render(request, 'measures/list.html', context)
+
+
+
+@login_required
+def delete_measure (request, id):
+    instance = get_object_or_404(GlucoseMeasure, pk=id)
+    # Get path to return
+    path = request.GET.get('return_path', '/measures/list')
+
+    # User only can delete your own measures
+    if instance.user.id == request.user.id:
+        instance.delete()
+        messages.success(request, 'Medição excluída com sucesso')
+        return redirect(path)
