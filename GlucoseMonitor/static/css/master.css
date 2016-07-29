@@ -54,10 +54,6 @@ body {
     line-height: 39px;
 
 }
-.content-box-help a {
-    color: #d9534f;
-    text-align: right;
-}
 .content-box-help a:hover,
 .content-box-help a:focus {
     cursor: pointer;
@@ -91,4 +87,32 @@ body {
 /* Full width components */
 .fill-parent {
     width: 100%;
+}
+
+/* Text aligns */
+.t-right {
+    text-align: right;
+}
+.t-left {
+    text-align: left;
+}
+
+/* Floats */
+.f-right {
+    float: right;
+}
+.f-left {
+    float: left;
+}
+
+/* Measures types tags*/
+.label.label-fst,
+.label.label-afm {
+    text-transform: uppercase;
+}
+.label.label-afm {
+    background-color: #f0ad4e
+}
+.label.label-fst {
+    background-color: #5bc0de;
 }

@@ -2,48 +2,74 @@
 {% load bootstrap_pagination %}
 
 {% block main_content %}
-{% for instance in queryset %}
 <div class="content-box">
-    <div class="content-box-body">
+    <div class="content-box-header">
         <div class="row">
-            <div class="col-md-10 col-xs-6">
-                <h3>{{ instance.value }} mg/dL</h3>
+            <div class="col-xs-8 col-md-8">
+                <h2>Minhas Medições</h2>
             </div>
-            <div class="col-md-2 col-xs-6">
-                <div class="content-box-actions right">
-                </div>
+            <div class="col-xs-4 col-md-4 t-right">
+                <a href="/measures/export_pdf" class="btn btn-danger">Gerar PDF</a>
             </div>
         </div>
     </div>
+
+    <div class="content-box-body no-padding">
+        <div class="list-group">
+            {% for instance in queryset %}
+            <div class="list-group-item">
+                <div class="row">
+                    <div class="col-md-7">
+                        <h4>{{ instance.value }} mg/dL</h4>
+                        <div class="list-group-item-text">{{ instance.datetime | date }}</div>
+                        <div class="list-group-item-text">{{ instance.datetime | time }}</div>
+                        <span class="label label-{{ instance.measure_type | lower }}">{{ instance.get_measure_type_display }}</span>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="dropdown f-right">
+                            <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Ações
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="#"><i class="glyphicon glyphicon-pencil" style="margin-right: 10px"></i> EDITAR</a></li>
+                                <li><a href="#"><i class="glyphicon glyphicon-trash"  style="margin-right: 10px"></i> EXCLUIR</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <div class="content-box-footer">
-        <i class="glyphicon glyphicon-calendar"></i> {{ instance.datetime | date }} <i class="glyphicon glyphicon-time"></i> {{ instance.datetime | time }}
+        {% if queryset.paginator.num_pages > 1 %}
+        <div class="text-center">
+            {% bootstrap_paginate queryset %}
+        </div>
+        {% endif %}
     </div>
 </div>
-{% endfor %}
-{% if queryset.paginator.num_pages > 1 %}
-<div class="text-center">
-    {% bootstrap_paginate queryset %}
-</div>
-{% endif %}
 {% endblock %}
 
 
 
 {% block script %}
 <script type="text/javascript">
-    $("#initial_date").datetimepicker({
-        locale: 'pt-br'
-    });
-    $("#final_date").datetimepicker({
-        locale: 'pt-br',
-        useCurrent: true
-    });
-    // Linked datetime pickers
-    $("#initial_date").on("dp.change", function (e) {
-        $('#final_date').data("DateTimePicker").minDate(e.date);
-    });
-    $("#final_date").on("dp.change", function (e) {
-        $('#initial_date').data("DateTimePicker").maxDate(e.date);
-    });
+$("#initial_date").datetimepicker({
+    locale: 'pt-br'
+});
+$("#final_date").datetimepicker({
+    locale: 'pt-br',
+    useCurrent: true
+});
+// Linked datetime pickers
+$("#initial_date").on("dp.change", function (e) {
+    $('#final_date').data("DateTimePicker").minDate(e.date);
+});
+$("#final_date").on("dp.change", function (e) {
+    $('#initial_date').data("DateTimePicker").maxDate(e.date);
+});
 </script>
 {% endblock %}

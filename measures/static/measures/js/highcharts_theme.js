@@ -1,9 +1,6 @@
 Highcharts.theme = {
     chart: {
         backgroundColor: null,
-        style: {
-            fontFamily: "Quicksand"
-        }
     },
     title: {
         style: {
