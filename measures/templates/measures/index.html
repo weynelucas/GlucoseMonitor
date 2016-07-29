@@ -88,6 +88,7 @@
 {% endblock %}
 
 {% block script %}
+<script src="/static/js/parsley_validate.js" charset="utf-8"></script>
 <script src="/static/measures/js/render_charts.js" charset="utf-8"></script>
 <script type="text/javascript">
     var overlay = {
@@ -110,17 +111,7 @@
             return true;
         });
         // Init parsley validation behavior
-        $("form").parsley({
-            errorClass: 'has-error',
-            classHandler: function (el) {
-                return el.$element.closest('.form-group');
-            },
-            errorsContainer: function(el) {
-                return el.$element.closest('.form-group');
-            },
-            errorsWrapper: "<span class='help-block'></span>",
-            errorTemplate: "<span></span>",
-        });
+        validateForm();
         // Render charts
         renderPieChart(distribution);
         renderLineChart(overlay.data, overlay.labels);

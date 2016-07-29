@@ -1,0 +1,31 @@
+{% extends "measures/base.html" %}
+
+{% block main_content %}
+<form class="content-box" action="{{ request.path }}" method="post">{% csrf_token %}
+    <h2 class="content-box-header">Editar Medição</h2>
+    <div class="content-box-body">
+        {% for field in form %}
+        <div class="form-group">
+            <div class="input-group">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+
+    </div>
+    <div class="content-box-footer t-right">
+        <button class="btn btn-danger" type="submit">Editar</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script src="/static/js/parsley_validate.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(function () {
+        validateForm();
+    });
+</script>
+{% endblock %}

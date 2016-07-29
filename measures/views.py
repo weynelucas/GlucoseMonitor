@@ -1,7 +1,7 @@
 import json
 from datetime import datetime, timedelta, time
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -92,15 +92,33 @@ def measures_list(request):
     return render(request, 'measures/list.html', context)
 
 
-
 @login_required
 def delete_measure (request, id):
-    instance = get_object_or_404(GlucoseMeasure, pk=id)
     # Get path to return
     path = request.GET.get('return_path', '/measures/list')
-
     # User only can delete your own measures
-    if instance.user.id == request.user.id:
-        instance.delete()
-        messages.success(request, 'Medição excluída com sucesso')
-        return redirect(path)
+    instance = get_object_or_404(GlucoseMeasure, pk=id)
+    if instance.user.id != request.user.id:
+        raise Http404
+
+    instance.delete()
+    messages.success(request, 'Medição excluída com sucesso')
+    return redirect(path)
+
+
+@login_required
+def edit_measure(request, id):
+    path = request.GET.get('return_path', '/measures/list')
+    instance = get_object_or_404(GlucoseMeasure, pk=id)
+    form =  GlucoseMeasureForm(request.POST or None, instance=instance)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Medição editada com sucesso')
+            return redirect(path)
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'measures/edit.html', context)
