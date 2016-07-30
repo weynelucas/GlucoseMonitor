@@ -8,6 +8,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from measures.encoders import DecimalEncoder, DateTimeEncoder
 from measures.forms import GlucoseMeasureForm
 from measures.models import GlucoseMeasure
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from measures.pdf_utils import PdfPrint
 
 
 @login_required
@@ -127,3 +130,14 @@ def edit_measure(request, id):
         'return_path': path,
     }
     return render(request, 'measures/edit.html', context)
+
+@login_required
+def export_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] ='attachement; filename=Relatorio_Medidas.pdf'
+
+    buffer = BytesIO()
+    report = PdfPrint(buffer, 'A4')
+    pdf = report.report(GlucoseMeasure.objects.all().order_by('-datetime'), 'Relatório')
+    response.write(pdf)
+    return response
