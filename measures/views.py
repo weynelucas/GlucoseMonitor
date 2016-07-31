@@ -9,6 +9,7 @@ from measures.encoders import DecimalEncoder, DateTimeEncoder
 from measures.forms import GlucoseMeasureForm
 from measures.models import GlucoseMeasure
 from measures.report.generator import ReportGenerator
+from measures.querybusiness import peform_query
 
 @login_required
 def index(request):
@@ -21,16 +22,8 @@ def index(request):
     else:
         form = GlucoseMeasureForm()
 
-    # Generate query period
-    today = datetime.now()
-    final_date   = datetime.combine(today, time.max)
-    initial_date = datetime.combine(today - timedelta(days=30), time.min)
-
-    queryset = GlucoseMeasure.objects.filter(
-        user__id      = request.user.id,
-        datetime__gte = initial_date,
-        datetime__lte = final_date
-    ).order_by('-datetime')
+    # Get queryset
+    queryset = peform_query(request)
 
     # Measure type queryset separation
     fst_queryset = queryset.filter(measure_type='FST')
@@ -42,7 +35,9 @@ def index(request):
 
     # Context dict
     context = {
-        'form': form,
+        'form'    : form,
+        'period'  : request.GET.get('period', '30'),
+        'tab'     : 'home',
         'queryset': queryset,
         'last'    : queryset[:5],
         'distribution': {
@@ -63,16 +58,7 @@ def index(request):
 
 @login_required
 def measures_list(request):
-    # Generate query period
-    today = datetime.now()
-    final_date   = datetime.combine(today, time.max)
-    initial_date = datetime.combine(today - timedelta(days=30), time.min)
-
-    queryset = GlucoseMeasure.objects.filter(
-        user__id      = request.user.id,
-        datetime__gte = initial_date,
-        datetime__lte = final_date
-    ).order_by('-datetime')
+    queryset = peform_query(request)
 
     # Prepare paginator
     paginator = Paginator(queryset, 15)
@@ -87,6 +73,8 @@ def measures_list(request):
         paginated_list = paginator.page(paginator.num_pages)
 
     context = {
+        'period'  : request.GET.get('period', '30'),
+        'tab'     : 'list',
         'queryset': paginated_list,
     }
     return render(request, 'measures/list.html', context)

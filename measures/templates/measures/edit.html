@@ -1,15 +1,15 @@
-{% extends "measures/base.html" %}
+{% extends "base.html" %}
 
 {% block main_content %}
-<form class="content-box" action="{{ request.path }}?return_path={{ return_path }}" method="post">{% csrf_token %}
-    <h2 class="content-box-header">Editar Medição</h2>
-    <div class="content-box-body">
-        <div class="row">
-            <div class="col-md-6">
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <form class="content-box" action="{{ request.path }}?return_path={{ return_path }}" method="post">{% csrf_token %}
+            <h2 class="content-box-header">Editar Medição</h2>
+            <div class="content-box-body">
                 <div class="row">
                     <!-- Measure Type -->
                     <div class="form-group col-md-6">
-                        <div class="input-group">
+                        <div class="input-group fill-parent">
                             {{ form.measure_type.label_tag }}
                             {{ form.measure_type }}
                         </div>
@@ -17,7 +17,7 @@
                     </div>
                     <!-- Value -->
                     <div class="form-group col-md-6">
-                        <div class="input-group">
+                        <div class="input-group fill-parent">
                             {{ form.value.label_tag }}
                             {{ form.value }}
                         </div>
@@ -35,6 +35,7 @@
                     </div>
                     {{ form.datetime.errors }}
                 </div>
+
                 <!-- Notes -->
                 <div class="form-group">
                     <div class="input-group fill-parent">
@@ -45,14 +46,16 @@
                 </div>
                 <!-- User (hidden) -->
                 <input type="hidden" name="user" value="{{ request.user.id }}">
+
             </div>
-        </div>
+            <div class="content-box-footer t-right">
+                <a href="{{ return_path }}"class="btn btn-default" type="submit">Voltar</a>
+                <button class="btn btn-danger" type="submit">Editar</button>
+            </div>
+        </form>
+
     </div>
-    <div class="content-box-footer t-right">
-        <a href="{{ return_path }}"class="btn btn-default" type="submit">Voltar</a>
-        <button class="btn btn-danger" type="submit">Editar</button>
-    </div>
-</form>
+</div>
 {% endblock %}
 
 {% block script %}

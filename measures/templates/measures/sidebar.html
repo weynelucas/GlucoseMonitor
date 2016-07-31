@@ -1,0 +1,28 @@
+<form class="content-box" action="{{ request.path }}" method="get">
+    <h4 class="content-box-header">Filtros</h4>
+    <div class="content-box-body">
+        <div class="fom-group">
+            <div class="input-group input-group-sm fill-parent">
+                <select class="form-control" name="period">
+                    <option value="30">Último mês</option>
+                    <option value="60">Últimos 2 meses</option>
+                    <option value="all">Desde o começo</option>
+                    <option value="custom">Especificar período</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="content-box-body t-right">
+        <button type="submit" class="btn btn-danger">Filtrar</button>
+    </div>
+</form>
+
+
+<div class="sidebar">
+    <div>
+        <ul class="nav nav-sidebar">
+            <li id="home" class="active"><a href="/measures/?period={{ period }}">Principal</a></li>
+            <li id="list"><a href="/measures/list?period={{ period }}">Minhas medições</a></li>
+        </ul>
+    </div>
+</div>
