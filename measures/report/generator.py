@@ -32,10 +32,17 @@ class ReportGenerator:
         )
         return doc_template
 
-    def generatePdfReport(self, objects):
+    def generatePdfReport(self, objects, period_interval):
         doc_data = []
         add_title(doc_data, self.report_title)
-        add_info_table(doc_data, self.info_title, self.info_labels, [ 'Lucas Weyne Barros Ferreira', datetime.now().strftime('%d/%m/%Y %H:%M'), '01/07/2016 - 30/07/2016', objects.count()])
+
+        info_values = [
+            objects[0].user.username,
+            datetime.now().strftime('%d/%m/%Y %H:%M'),
+            "%s - %s" % (period_interval[0].strftime('%d/%m/%Y'), period_interval[1].strftime('%d/%m/%Y')),
+            objects.count()
+        ]
+        add_info_table(doc_data, self.info_title, self.info_labels, info_values)
 
 
         objects_data = []

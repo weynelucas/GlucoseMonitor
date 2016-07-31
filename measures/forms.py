@@ -6,7 +6,7 @@ attrs = {
     'value'       : {'class': 'form-control'} ,
     'datetime'    : {'class': 'form-control'} ,
     'measure_type': {'class': 'form-control'} ,
-    'notes'       : {'class': 'form-control', 'rows': 6} ,
+    'notes'       : {'class': 'form-control', 'rows': 4} ,
 }
 
 @parsleyfy

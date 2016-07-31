@@ -32,14 +32,24 @@
             </div>
             <div class="col-xs-5 col-sm-3 col-md-3">
                 <div class="form-group">
-                    <div class="input-group  fill-parent">
+                    <div class="input-group fill-parent">
                         {{ form.measure_type }}
                     </div>
                 </div>
             </div>
         </div>
+        <div id="notes" class="form-group" style="display:none">
+            {{ form.notes.label_tag }}
+            <div class="input-group fill-parent">
+                {{ form.notes }}
+            </div>
+        </div>
         <input type="hidden" name="datetime">
         <input type="hidden" name="user" value="{{ request.user.id }}">
+    </div>
+    <div class="form-box-actions">
+        <a id="notesBtn" onclick="toggleNotesFormGroup()" class="btn btn-default">Adicionar notas</a>
+        <button type="submit" class="btn btn-danger">Registrar</button>
     </div>
 </form>
 <div class="row">
@@ -103,6 +113,13 @@
         high: {{ distribution.high }},
     }
 
+    function toggleNotesFormGroup() {
+        $('#notes').toggle(200);
+
+        var currentTxt = $('#notesBtn').html();
+        var btnTxt = (currentTxt == 'Adicionar notas') ? 'Ocultar' : 'Adicionar notas';
+        $('#notesBtn').html(btnTxt);
+    }
 
     $(document).ready(function () {
         // Append current datetime before form submit

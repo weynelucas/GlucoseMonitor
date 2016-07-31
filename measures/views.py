@@ -9,7 +9,7 @@ from measures.encoders import DecimalEncoder, DateTimeEncoder
 from measures.forms import GlucoseMeasureForm
 from measures.models import GlucoseMeasure
 from measures.report.generator import ReportGenerator
-from measures.querybusiness import peform_query
+from measures.querybusiness import peform_query, get_period_interval
 
 @login_required
 def index(request):
@@ -118,11 +118,13 @@ def edit_measure(request, id):
 
 @login_required
 def export_pdf(request):
+    queryset = peform_query(request)
+    period_interval = get_period_interval(request)
     response = HttpResponse(content_type='application/pdf')
     filename = 'Relatorio_' + datetime.now().strftime('%Y_%m_%d__%H_%M')
     response['Content-Disposition'] ='attachement; filename=%s.pdf' % (filename)
 
     report = ReportGenerator()
-    pdf = report.generatePdfReport(GlucoseMeasure.objects.all().order_by('-datetime'))
+    pdf = report.generatePdfReport(queryset, period_interval)
     response.write(pdf)
     return response

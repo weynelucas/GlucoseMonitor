@@ -10,6 +10,18 @@ def peform_query(request):
         Returns:
             List of objects (queryset) given the arguments
     """
+    period_interval = get_period_interval(request)
+
+    queryset = GlucoseMeasure.objects.filter(
+        user__id      = request.user.id,
+        datetime__gte = period_interval[0],
+        datetime__lte = period_interval[1]
+    ).order_by('-datetime')
+
+    return queryset
+
+
+def get_period_interval(request):
     period = request.GET.get('period', '30')
     today = datetime.now()
     final_date   = datetime.combine(today, time.max)
@@ -20,10 +32,4 @@ def peform_query(request):
         if period == 'all':
             initial_date = datetime.combine(request.user.date_joined, time.min)
 
-    queryset = GlucoseMeasure.objects.filter(
-        user__id      = request.user.id,
-        datetime__gte = initial_date,
-        datetime__lte = final_date
-    ).order_by('-datetime')
-
-    return queryset
+    return [initial_date, final_date]
