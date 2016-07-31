@@ -1,6 +1,25 @@
-from reportlab.platypus  import Table, Spacer
+from reportlab.platypus  import Table, Spacer, Paragraph
 from reportlab.lib.units import mm
-from .styles             import tableStyles
+from .styles             import tableStyles, stylesheet
+
+def wrap_word_cell(text):
+    """ Convert a long text string to a Paragraph to wrap on
+        a table cell and not escape it and prevents layout breaks
+        Args:
+            text     : Text to convert in a wrap word cell
+        Returns:
+            A Paragraph with WrapWord (BodyText child) style
+    """
+    return Paragraph(text, stylesheet['WrapWord'])
+
+def add_title(doc_data, title):
+    """ Add title to document
+        Args:
+            doc_data : Document data to append title
+            title    : Text to display on title
+    """
+    doc_data.append(Paragraph(title, stylesheet['ReportTitle']))
+    add_space(doc_data, height=50)
 
 
 def add_space(doc_data, width=1, height=25):

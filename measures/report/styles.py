@@ -1,8 +1,10 @@
 from reportlab.pdfbase         import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.enums       import TA_CENTER, TA_JUSTIFY
 from reportlab.lib.units       import mm
 from reportlab.lib             import colors
 from reportlab.platypus        import TableStyle
+from reportlab.lib.styles      import getSampleStyleSheet, ParagraphStyle
 from GlucoseMonitor.settings   import STATIC_ROOT
 
 # Load fonts
@@ -35,3 +37,17 @@ tableStyles = {
         ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
     ]),
 }
+
+
+def loadStyles():
+    """ Function to load report stylesheet """
+    styles = getSampleStyleSheet()
+    styles.add(ParagraphStyle(name="ReportTitle",  alignment=TA_CENTER,  fontName="Type Writer Bold", fontSize=25))
+    styles.add(ParagraphStyle(name="SectionTitle", alignment=TA_JUSTIFY, fontName="Type Writer Bold", fontSize=16))
+    styles.add(ParagraphStyle(name="WrapWord",     alignment=TA_JUSTIFY, fontName="Type Writer", parent=styles['BodyText']))
+
+    return styles
+
+
+# Load stylesheet
+stylesheet = loadStyles()
