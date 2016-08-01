@@ -98,8 +98,6 @@
 {% endblock %}
 
 {% block script %}
-<script src="/static/js/parsley_validate.js" charset="utf-8"></script>
-<script src="/static/measures/js/render_charts.js" charset="utf-8"></script>
 <script type="text/javascript">
     var overlay = {
         data  : {{ overlay.data   | safe }},
@@ -113,22 +111,12 @@
         high: {{ distribution.high }},
     }
 
-    function toggleNotesFormGroup() {
-        $('#notes').toggle(200);
-
-        var currentTxt = $('#notesBtn').html();
-        var btnTxt = (currentTxt == 'Adicionar notas') ? 'Ocultar' : 'Adicionar notas';
-        $('#notesBtn').html(btnTxt);
-    }
-
     $(document).ready(function () {
         // Append current datetime before form submit
         $("form").submit(function () {
             $("[name='datetime']").val(moment().format("DD/MM/YYYY HH:mm"));
             return true;
         });
-        // Init parsley validation behavior
-        validateForm();
         // Render charts
         renderPieChart(distribution);
         renderLineChart(overlay.data, overlay.labels);

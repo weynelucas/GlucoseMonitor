@@ -27,7 +27,7 @@
                 <!-- Datetime -->
                 <div class="form-group">
                     {{ form.datetime.label_tag }}
-                    <div id="datetime_picker" class="input-group">
+                    <div id="datetime_picker" class="input-group datetimepicker">
                         {{ form.datetime }}
                         <span class="input-group-addon pointer">
                             <span class="glyphicon glyphicon-calendar"></span>
@@ -56,17 +56,4 @@
 
     </div>
 </div>
-{% endblock %}
-
-{% block script %}
-<script src="/static/js/parsley_validate.js" charset="utf-8"></script>
-<script type="text/javascript">
-    $(function () {
-        validateForm();
-        $('#datetime_picker').datetimepicker({
-            locale: 'pt-br',
-            maxDate: new Date(),
-        });
-    });
-</script>
 {% endblock %}

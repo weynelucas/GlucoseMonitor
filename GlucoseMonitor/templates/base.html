@@ -27,14 +27,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js" charset="utf-8"></script>
     <script src="/static/measures/js/highcharts_theme.js" charset="utf-8"></script>
-    <script type="text/javascript">
-
-    </script>
+    <script src="/static/js/parsley_validate.js" charset="utf-8"></script>
+    <script src="/static/js/datetime.js" charset="utf-8"></script>
     <script type="text/javascript">
         // Dispatch django messages in toasts
         {% for message in messages %}
         toastr['{{ message.tags }}']('{{ message }}')
         {% endfor %}
+        // Listen forms
+        $(function() {
+            validateForm();
+            datetimePickerBehaviour();
+        })
     </script>
 
     {% block main_script %}

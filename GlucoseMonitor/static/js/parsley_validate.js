@@ -1,5 +1,6 @@
 function validateForm() {
     $("form").parsley({
+        excluded: 'input:hidden',
         errorClass: 'has-error',
         classHandler: function (el) {
             return el.$element.closest('.form-group');

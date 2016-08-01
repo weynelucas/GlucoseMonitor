@@ -1,9 +1,9 @@
-<form class="content-box" action="{{ request.path }}" method="get">
-    <h4 class="content-box-header">Filtros</h4>
-    <div class="content-box-body">
-        <div class="fom-group">
+<form class="form-box" action="{{ request.path }}" method="get">
+    <h4 class="form-box-title">Filtros</h4>
+    <div class="form-box-content">
+        <div class="form-group">
             <div class="input-group input-group-sm fill-parent">
-                <select class="form-control" name="period">
+                <select class="form-control" name="period" onchange="displayPeriodInterval()">
                     <option value="30">Último mês</option>
                     <option value="60">Últimos 2 meses</option>
                     <option value="all">Desde o começo</option>
@@ -11,8 +11,26 @@
                 </select>
             </div>
         </div>
+        <div id="periodInterval" class="row" style="display:none">
+            <div class="form-group col-md-12 col-sm-6">
+                <div class='input-group input-group-sm fill-parent date datetimepicker_linked'>
+                    <input type='text' name="period_begin" class="form-control" placeholder="INÍCIO"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-6">
+                <div class='input-group input-group-sm fill-parent date datetimepicker_linked'>
+                    <input type='text' name="period_end" class="form-control" placeholder="FIM"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="content-box-body t-right">
+    <div class="form-box-actions t-right">
         <button type="submit" class="btn btn-danger">Filtrar</button>
     </div>
 </form>

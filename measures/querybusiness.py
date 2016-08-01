@@ -31,5 +31,8 @@ def get_period_interval(request):
     except ValueError:
         if period == 'all':
             initial_date = datetime.combine(request.user.date_joined, time.min)
+        elif period == 'custom':
+            initial_date = datetime.strptime(request.GET['period_begin'], '%d/%m/%Y')
+            final_date   = datetime.strptime(request.GET['period_end'], '%d/%m/%Y')
 
     return [initial_date, final_date]
