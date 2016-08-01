@@ -46,12 +46,12 @@
         </div>
     </div>
 
+    {% if queryset.paginator.num_pages > 1 %}
     <div class="content-box-footer">
-        {% if queryset.paginator.num_pages > 1 %}
         <div class="text-center">
             {% bootstrap_paginate queryset %}
         </div>
-        {% endif %}
     </div>
+    {% endif %}
 </div>
 {% endblock %}

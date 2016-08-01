@@ -9,8 +9,10 @@ function toggleNotesFormGroup() {
 function displayPeriodInterval () {
     var selectedOption = $("select[name='period']").val();
     if(selectedOption === 'custom') {
+        $('#periodInterval input').attr('disabled', false)
         $('#periodInterval').show(200);
     } else {
+        $('#periodInterval input').attr('disabled', true)
         $('#periodInterval').hide(200);
     }
 }

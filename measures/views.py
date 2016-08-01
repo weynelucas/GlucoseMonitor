@@ -9,9 +9,12 @@ from measures.encoders import DecimalEncoder, DateTimeEncoder
 from measures.forms import GlucoseMeasureForm
 from measures.models import GlucoseMeasure
 from measures.report.generator import ReportGenerator
-from measures.querybusiness import peform_query, get_period_interval
+from measures.querybusiness import peform_query
+from measures.period import get_period_params, get_period_interval, period_param_is_valid
+
 
 @login_required
+@period_param_is_valid
 def index(request):
     if request.method == 'POST':
         form = GlucoseMeasureForm(request.POST)
@@ -21,6 +24,9 @@ def index(request):
             return redirect(index)
     else:
         form = GlucoseMeasureForm()
+
+    # Listen period
+    period, period_begin, period_end = get_period_params(request)
 
     # Get queryset
     queryset = peform_query(request)
@@ -35,11 +41,13 @@ def index(request):
 
     # Context dict
     context = {
-        'form'    : form,
-        'period'  : request.GET.get('period', '30'),
-        'tab'     : 'home',
-        'queryset': queryset,
-        'last'    : queryset[:5],
+        'form'        : form,
+        'period'      : period,
+        'period_begin': period_begin,
+        'period_end'  : period_end,
+        'tab'         : 'home',
+        'queryset'    : queryset,
+        'last'        : queryset[:5],
         'distribution': {
             'hypo': fst_queryset.filter(value__lte=70).count() + afm_queryset.filter(value__lte=70).count(),
             'norm': fst_queryset.filter(value__gt=70,  value__lte=100).count() + afm_queryset.filter(value__gt=70,  value__lte=140).count(),
@@ -57,8 +65,10 @@ def index(request):
 
 
 @login_required
+@period_param_is_valid
 def measures_list(request):
     queryset = peform_query(request)
+    period, period_begin, period_end = get_period_params(request)
 
     # Prepare paginator
     paginator = Paginator(queryset, 15)
@@ -73,9 +83,11 @@ def measures_list(request):
         paginated_list = paginator.page(paginator.num_pages)
 
     context = {
-        'period'  : request.GET.get('period', '30'),
-        'tab'     : 'list',
-        'queryset': paginated_list,
+        'tab'         : 'list',
+        'period'      : period,
+        'period_begin': period_begin,
+        'period_end'  : period_end,
+        'queryset'    : paginated_list,
     }
     return render(request, 'measures/list.html', context)
 
@@ -117,9 +129,11 @@ def edit_measure(request, id):
     return render(request, 'measures/edit.html', context)
 
 @login_required
+@period_param_is_valid
 def export_pdf(request):
     queryset = peform_query(request)
     period_interval = get_period_interval(request)
+
     response = HttpResponse(content_type='application/pdf')
     filename = 'Relatorio_' + datetime.now().strftime('%Y_%m_%d__%H_%M')
     response['Content-Disposition'] ='attachement; filename=%s.pdf' % (filename)

@@ -11,18 +11,18 @@
                 </select>
             </div>
         </div>
-        <div id="periodInterval" class="row" style="display:none">
+        <div id="periodInterval" class="dp-linked row" style="{% if period != 'custom' %} display:none {% endif %}">
             <div class="form-group col-md-12 col-sm-6">
-                <div class='input-group input-group-sm fill-parent date datetimepicker_linked'>
-                    <input type='text' name="period_begin" class="form-control" placeholder="INÍCIO"/>
+                <div class='input-group input-group-sm fill-parent date dp'>
+                    <input type='text' name="period_begin" class="form-control" placeholder="INÍCIO" data-date-format='DD/MM/YYYY' value="{{ period_begin }}"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
             </div>
             <div class="form-group col-md-12 col-sm-6">
-                <div class='input-group input-group-sm fill-parent date datetimepicker_linked'>
-                    <input type='text' name="period_end" class="form-control" placeholder="FIM"/>
+                <div class='input-group input-group-sm fill-parent date dp'>
+                    <input type='text' name="period_end" class="form-control" placeholder="FIM" data-date-format='DD/MM/YYYY' value="{{ period_end }}"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
