@@ -3,7 +3,6 @@ function datetimePickerBehaviour () {
         locale: 'pt-br',
         maxDate: new Date(),
     });
-
     // Liked pickers
     $('.datetimepicker_linked:first').datetimepicker({
         locale: 'pt-br',
