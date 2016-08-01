@@ -52,6 +52,8 @@
         <button type="submit" class="btn btn-danger">Registrar</button>
     </div>
 </form>
+
+{% if queryset %}
 <div class="row">
     <!-- Last Measures -->
     <div class="col-md-6">
@@ -95,6 +97,14 @@
         <div id="line_chart"></div>
     </div>
 </div>
+{% else %}
+<div class="content-box">
+    <h4 class="content-box-header">Nenhum resultado encontrado</h4>
+    <div class="content-box-body">
+        <p>Adicione mais registros das suas medições para manter seus dados atualizados.</p>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block script %}
