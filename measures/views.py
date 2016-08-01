@@ -17,11 +17,12 @@ from measures.period import get_period_params, get_period_interval, period_param
 @period_param_is_valid
 def index(request):
     if request.method == 'POST':
+        path = request.META['HTTP_REFERER']
         form = GlucoseMeasureForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Medição adicionada com sucesso')
-            return redirect(index)
+            return redirect(path)
     else:
         form = GlucoseMeasureForm()
 

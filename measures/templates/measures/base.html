@@ -25,14 +25,15 @@
         'data-parsley-required': "true",
         'data-parsley-required-message':"Este campo é obrigatório",
     }
-    var tab = "{{ tab }}"
+
+    var sidebarLink = "?period={{ period }}{% if period == 'custom' %}&period_begin={{ period_begin }}&period_end={{ period_end }}{% endif %}";
 
     $(function() {
-        $("select[name='period']").val("{{ period }}");
-        $(".sidebar ul>li.active").removeClass("active");
-        $("#" + tab).addClass("active");
+        $('#menu li a').each(function () {
+            $(this).attr("href", $(this).attr("href") + sidebarLink);
+        });
         $("#periodInterval input").attr(parsley_rules);
-    })
+    });
 </script>
 
 {% block script %}

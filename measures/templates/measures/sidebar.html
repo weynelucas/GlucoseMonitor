@@ -4,10 +4,11 @@
         <div class="form-group">
             <div class="input-group input-group-sm fill-parent">
                 <select class="form-control" name="period" onchange="displayPeriodInterval()">
-                    <option value="30">Último mês</option>
-                    <option value="60">Últimos 2 meses</option>
-                    <option value="all">Desde o começo</option>
-                    <option value="custom">Especificar período</option>
+                    <option value="30"     {% if period == '30' %}selected{% endif %}>Último mês</option>
+                    <option value="60"     {% if period == '60' %}selected{% endif %}>Últimos 2 meses</option>
+                    <option value="today"  {% if period == 'today' %}selected{% endif %}>Hoje</option>
+                    <option value="all"    {% if period == 'all' %}selected{% endif %}>Desde o começo</option>
+                    <option value="custom" {% if period == 'custom' %}selected{% endif %}>Especificar período</option>
                 </select>
             </div>
         </div>
@@ -38,9 +39,9 @@
 
 <div class="sidebar">
     <div>
-        <ul class="nav nav-sidebar">
-            <li id="home" class="active"><a href="/measures/?period={{ period }}">Principal</a></li>
-            <li id="list"><a href="/measures/list?period={{ period }}">Minhas medições</a></li>
+        <ul id="menu" class="nav nav-sidebar">
+            <li id="home" {% if tab == 'home' %}class="active"{% endif %}><a href="/measures/">Principal</a></li>
+            <li id="list" {% if tab == 'list' %}class="active"{% endif %}><a href="/measures/list">Minhas medições</a></li>
         </ul>
     </div>
 </div>

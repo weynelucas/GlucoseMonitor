@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, time
 from django.http import Http404
 
-period_choices = ['30', '60', 'all', 'custom']
+period_choices = ['30', '60', 'today', 'all', 'custom']
 
 def period_param_is_valid(view_function):
     """ Decorator to evaluate the period params on request
@@ -38,6 +38,9 @@ def get_period_interval(request):
         elif period == 'custom':
             initial_date = datetime.combine(datetime.strptime(request.GET['period_begin'], '%d/%m/%Y'), time.min)
             final_date   = datetime.combine(datetime.strptime(request.GET['period_end'], '%d/%m/%Y'), time.max)
+        elif period == 'today':
+            initial_date = datetime.combine(today, time.min)
+
 
     return [initial_date, final_date]
 

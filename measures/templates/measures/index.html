@@ -89,6 +89,7 @@
     </div>
 </div>
 <!-- Area Chart -->
+{% if queryset.count > 1 %}
 <div class="content-box">
     <div class="content-box-header">
         <h4>Nivel de glicose no sangue durante o período</h4>
@@ -97,11 +98,12 @@
         <div id="line_chart"></div>
     </div>
 </div>
+{% endif %}
 {% else %}
 <div class="content-box">
     <h4 class="content-box-header">Nenhum resultado encontrado</h4>
     <div class="content-box-body">
-        <p>Adicione mais registros das suas medições para manter seus dados atualizados.</p>
+        <p>Nenhum registro encontrado para o período em questão.</p>
     </div>
 </div>
 {% endif %}
