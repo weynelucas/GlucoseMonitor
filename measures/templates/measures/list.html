@@ -4,7 +4,6 @@
 {% block content %}
 
 {% include "measures/modal/delete_alert.html" %}
-
 <div class="content-box">
     <div class="content-box-header">
         <div class="row">
@@ -12,7 +11,12 @@
                 <h2>Minhas Medições</h2>
             </div>
             <div class="col-xs-4 col-md-4 t-right">
-                <a href="/measures/export_pdf?period={{ period }}" class="btn btn-danger">Gerar PDF</a>
+                <form action="/measures/export_pdf" method="get">
+                    {% for key, value in request.GET.items %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                    {% endfor %}
+                    <button type="submit" class="btn btn-danger">Gerar PDF</a>
+                </form>
             </div>
         </div>
     </div>
@@ -35,7 +39,7 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                <li><a href="/measures/edit/{{ instance.id }}?return_path={{ request.get_full_path }}"><i class="glyphicon glyphicon-pencil" style="margin-right: 10px"></i> EDITAR</a></li>
+                                <li><a href="/measures/edit/{{ instance.id }}"><i class="glyphicon glyphicon-pencil" style="margin-right: 10px"></i> EDITAR</a></li>
                                 <li><a href="#" onclick="displayDeleteAlert({{ instance.id }})"><i class="glyphicon glyphicon-trash"  style="margin-right: 10px"></i> EXCLUIR</a></li>
                             </ul>
                         </div>

@@ -95,7 +95,7 @@ def measures_list(request):
 @login_required
 def delete_measure (request, id):
     # Get path to return
-    path = request.GET.get('return_path', '/measures/list')
+    path = request.META.get('HTTP_REFERER', 'measures/list')
     # User only can delete your own measures
     instance = get_object_or_404(GlucoseMeasure, pk=id)
     if instance.user.id != request.user.id:
@@ -108,7 +108,8 @@ def delete_measure (request, id):
 
 @login_required
 def edit_measure(request, id):
-    path = request.GET.get('return_path', '/measures/list')
+    # Get path to return
+    path = request.META['HTTP_REFERER']
     # User only can edit your own measures
     instance = get_object_or_404(GlucoseMeasure, pk=id)
     if instance.user.id != request.user.id:
@@ -117,6 +118,7 @@ def edit_measure(request, id):
     form =  GlucoseMeasureForm(request.POST or None, instance=instance)
 
     if request.method == 'POST':
+        path = request.POST.get('return_path', '/measures/list')
         if form.is_valid():
             form.save()
             messages.success(request, 'Medição editada com sucesso')

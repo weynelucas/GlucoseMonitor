@@ -18,6 +18,6 @@ function displayPeriodInterval () {
 }
 
 function displayDeleteAlert (id) {
-    $('#alertModal a:last-child').attr('href', '/measures/delete/' + id + '?return_path=' + window.location.pathname + window.location.search);
+    $('#alertModal a:last-child').attr('href', '/measures/delete/' + id);
     $('#alertModal').modal();
 }
