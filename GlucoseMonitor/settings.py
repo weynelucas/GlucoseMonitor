@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'measures.apps.MeasuresConfig',
-    'accounts.apps.AccountsConfig',
+    'accounts',
     'parsley',
     'bootstrap_pagination',
 ]
