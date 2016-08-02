@@ -151,3 +151,15 @@ body {
 .label.label-fst {
     background-color: #5bc0de;
 }
+
+/* Login button */
+.btn-login {
+    color: #fff;
+    background-color: #de7d7a;
+    border-color: #de7d7a;
+}
+.btn-login:hover {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #c9302c;
+}

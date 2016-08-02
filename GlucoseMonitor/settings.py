@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'measures.apps.MeasuresConfig',
+    'accounts.apps.AccountsConfig',
     'parsley',
     'bootstrap_pagination',
 ]
@@ -61,6 +62,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'GlucoseMonitor', 'templates'),
             os.path.join(BASE_DIR, 'measures', 'templates'),
+            os.path.join(BASE_DIR, 'accounts', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -132,6 +134,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'GlucoseMonitor', 'static'),
     os.path.join(BASE_DIR, 'measures', 'static'),
+    os.path.join(BASE_DIR, 'accounts', 'static'),
 ]
 
 # Media files

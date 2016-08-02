@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <form action=".">
+                <h1>Cadastre-se</h1>
+                <h4 style="margin-bottom:25px">É totalmente gratuito</h4>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        {{ form.first_name }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.last_name }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.username }}
+                </div>
+                <div class="form-group">
+                    {{ form.email }}
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        {{ form.password }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="password" class="form-control" placeholder="Confirmar senha">
+                    </div>
+                </div>
+                <div class="row t-right">
+                    <p style="font-size:12px" class="col-md-6 col-md-offset-6">Ao clicar em Abrir uma conta, você concorda com os nossos Termos e que leu a nossa Política de Dados, incluindo o nosso Uso de Cookies.</p>
+                </div>
+                <div class="t-right">
+                    <button class="btn btn-danger" type="submit">Abrir uma conta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

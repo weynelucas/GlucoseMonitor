@@ -11,8 +11,13 @@
     <link rel="stylesheet" href="/static/css/bootstrap-custom.css" media="screen" title="no title" charset="utf-8">
     {% block head %}
     {% endblock %}
+
+    {% block title %}
+    {% endblock %}
 </head>
 <body>
+    {% include "navbar.html" %}
+
     {% block main_content %}
     {% endblock %}
 
