@@ -4,9 +4,9 @@
         <div class="form-group">
             <div class="input-group input-group-sm fill-parent">
                 <select class="form-control" name="period" onchange="displayPeriodInterval()">
+                    <option value="today"  {% if period == 'today' %}selected{% endif %}>Hoje</option>
                     <option value="30"     {% if period == '30' %}selected{% endif %}>Último mês</option>
                     <option value="60"     {% if period == '60' %}selected{% endif %}>Últimos 2 meses</option>
-                    <option value="today"  {% if period == 'today' %}selected{% endif %}>Hoje</option>
                     <option value="all"    {% if period == 'all' %}selected{% endif %}>Desde o começo</option>
                     <option value="custom" {% if period == 'custom' %}selected{% endif %}>Especificar período</option>
                 </select>

@@ -52,7 +52,7 @@ function renderLineChart(data, labels) {
         xAxis: {
             type: 'datetime',
             categories: labels,
-            minTickInterval: 5,
+            minTickInterval: 2,
             labels: {
                 rotation: -45,
             }
