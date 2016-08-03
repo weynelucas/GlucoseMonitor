@@ -14,6 +14,14 @@ window.Parsley.addValidator('uniqueEmail', {
     }
 });
 
+window.Parsley.addValidator('passwordCheck', {
+    requiementType: 'boolean',
+    validateString: function (value, requirement) {
+        var response = check_password(value);
+        return response == requirement;
+    }
+});
+
 function validateForm() {
     $("form").parsley({
         excluded: 'input:hidden',
@@ -42,6 +50,23 @@ function isUniqueField(field, value) {
         },
         error: function() {
             response = true;
+        }
+    });
+    return response;
+}
+
+function check_password(password) {
+    var response = false;
+    $.ajax({
+        url: "/check_password/" + password,
+        dataType: 'json',
+        type: 'get',
+        async: false,
+        success: function(data) {
+            response = data.check
+        },
+        error: function() {
+            response = false;
         }
     });
     return response;

@@ -3,6 +3,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from .forms import UserSignUpForm
 
 
@@ -32,6 +33,7 @@ def logout(request):
     auth.logout(request)
     return redirect(login)
 
+@login_required
 def signup(request):
     if request.method == 'POST':
         form = UserSignUpForm(request.POST)
@@ -43,6 +45,10 @@ def signup(request):
                 return redirect('/measures/')
 
     return redirect(login)
+
+@login_required
+def set_password(request):
+    pass
 
 def lookup(request, field, value):
     filter_dict = {}
@@ -63,4 +69,10 @@ def lookup(request, field, value):
             'error-message' : str(e)
         }
 
+    return JsonResponse(response)
+
+@login_required
+def check_password(request, password):
+    response = {}
+    response['check'] = request.user.check_password(password)
     return JsonResponse(response)

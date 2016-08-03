@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from django import forms
 from parsley.decorators import parsleyfy
 
@@ -16,8 +16,6 @@ class UserSignUpForm(UserCreationForm):
             'last_name' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Sobrenome'}),
             'username'  : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nome de usuário'}),
             'email'     : forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'Endereço de email'}),
-            'password1' : forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Senha'}),
-            'password1' : forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Senha'}),
         }
         parsley_extras = {
             'first_name': {
@@ -42,5 +40,33 @@ class UserSignUpForm(UserCreationForm):
             'password2': {
                 'equalto': 'password1',
                 'equalto-message': 'A senha e a confirmação de senha devem ser iguais.'
+            }
+        }
+
+
+
+@parsleyfy
+class SetPasswordForm(SetPasswordForm):
+    current_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Senha atual'}), required=True)
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Nova senha'}), required=True)
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Confirmar nova senha'}), required=True)
+    class Meta:
+        fields = ['new_password1', 'new_password2']
+        parsley_extras = {
+            'current_password': {
+                'required': 'true',
+                'password-check': 'true',
+                'password-check-message': 'Sua senha está incorreta.',
+                'required-message': 'Este campo é obrigatório.',
+            },
+            'new_password2': {
+                'required': 'true',
+                'required-message': 'Este campo é obrigatório.',
+            },
+            'new_password2': {
+                'required': 'true',
+                'equalto': 'new_password1',
+                'equalto-message': 'A nova senha e a confirmação de nova senha devem ser iguais.',
+                'required-message': 'Este campo é obrigatório.',
             }
         }
