@@ -6,15 +6,10 @@ function renderPieChart(data) {
                 enabled: true,
                 alpha: 45
             },
-            style: {
-                fontFamily: 'Quicksand',
-                fontSize: '12px',
-            },
         },
         colors: ['#0288D1', '#8BC34A', '#FFEB3B', '#F44336'],
         title: {
-            text: 'Comparação das medições com os valores de referência para diabetes',
-            x: -20 //center
+            text: '',
         },
         plotOptions: {
             pie: {
@@ -27,20 +22,67 @@ function renderPieChart(data) {
             }
         },
         series: [{
-            name: 'Medições',
+            name: 'Registros',
             data: [{
                 name: 'Hipoglicemia',
-                y: data.hypoglycemia
+                y: data.hypo
             }, {
                 name: 'Normal',
-                y: data.normal
+                y: data.norm
             }, {
                 name: 'Pré-diabetes',
-                y: data.pre_diabetes
+                y: data.pre
             }, {
                 name: 'Diabetes',
-                y: data.diabetes
+                y: data.high
             }]
         }]
+    });
+}
+
+function renderLineChart(data, labels) {
+    $('#line_chart').highcharts({
+        chart: {
+            type: 'area',
+        },
+        colors: ["#d9534f", "#7798BF"],
+        title: {
+            text: ''
+        },
+        xAxis: {
+            type: 'datetime',
+            categories: labels,
+            minTickInterval: 2,
+            labels: {
+                rotation: -45,
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Nível de glicose (mg/dL)'
+            },
+        },
+        tooltip: {
+            pointFormat: '{series.name}: {point.y:,.2f}<br/> mg/dL'
+        },
+        plotOptions: {
+            area: {
+                lineWidth: 1.5,
+                marker: {
+                    enabled: false,
+                    symbol: 'circle',
+                    radius: 2,
+                    states: {
+                        hover: {
+                            enabled: true
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'NÍVEL DE GLICOSE',
+            data: data,
+        }],
     });
 }

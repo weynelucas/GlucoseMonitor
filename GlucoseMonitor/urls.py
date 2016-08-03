@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url, include, handler400, handler403, handler404, handler500
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
@@ -23,6 +23,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^measures/', include('measures.urls')),
 ]
+
+handler400 = 'GlucoseMonitor.views.bad_request'
+handler403 = 'GlucoseMonitor.views.permission_denied'
+handler404 = 'GlucoseMonitor.views.page_not_found'
+handler500 = 'GlucoseMonitor.views.server_error'
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)
