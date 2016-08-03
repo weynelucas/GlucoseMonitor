@@ -1,3 +1,19 @@
+window.Parsley.addValidator('uniqueUsername', {
+    requiementType: 'boolean',
+    validateString: function (value, requirement) {
+        var response = isUniqueField('username', value);
+        return response == requirement;
+    }
+});
+
+window.Parsley.addValidator('uniqueEmail', {
+    requiementType: 'boolean',
+    validateString: function (value, requirement) {
+        var response = isUniqueField('email', value);
+        return response == requirement;
+    }
+});
+
 function validateForm() {
     $("form").parsley({
         excluded: 'input:hidden',
@@ -11,4 +27,22 @@ function validateForm() {
         errorsWrapper: "<span class='help-block'></span>",
         errorTemplate: "<span></span>",
     });
+}
+
+
+function isUniqueField(field, value) {
+    var response = true;
+    $.ajax({
+        url: "/lookup/" + field + "/" + value,
+        dataType: 'json',
+        type: 'get',
+        async: false,
+        success: function(data) {
+            response = !(data.totalResults > 0)
+        },
+        error: function() {
+            response = true;
+        }
+    });
+    return response;
 }

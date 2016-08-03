@@ -26,8 +26,14 @@ class UserSignUpForm(forms.ModelForm):
                 'required': 'true',
                 'required-message': 'Este campo é obrigatório.',
             },
+            'username': {
+                'unique-username': 'true',
+                'unique-username-message': 'Este nome de usuário já está em uso.',
+            },
             'email': {
                 'required': 'true',
+                'unique-email': 'true',
+                'unique-email-message': 'Este endereço de email já está em uso.', 
                 'required-message': 'Este campo é obrigatório.',
                 'type-message': 'Por favor insira um endereço de email válido.',
             },

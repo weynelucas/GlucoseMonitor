@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
 from .forms import UserSignUpForm
+
+
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
