@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django import forms
 from parsley.decorators import parsleyfy
 
@@ -46,14 +46,14 @@ class UserSignUpForm(UserCreationForm):
 
 
 @parsleyfy
-class SetPasswordForm(SetPasswordForm):
-    current_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Senha atual'}), required=True)
+class PasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Senha atual'}), required=True)
     new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Nova senha'}), required=True)
     new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Confirmar nova senha'}), required=True)
     class Meta:
-        fields = ['new_password1', 'new_password2']
+        fields = ['old_password', 'new_password1', 'new_password2']
         parsley_extras = {
-            'current_password': {
+            'old_password': {
                 'required': 'true',
                 'password-check': 'true',
                 'password-check-message': 'Sua senha está incorreta.',

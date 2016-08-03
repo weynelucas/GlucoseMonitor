@@ -27,6 +27,10 @@ select.form-control {
     text-transform: uppercase;
 }
 
+.dropdown-menu>li a {
+    cursor: pointer;
+}
+
 
 
 /* Bootstrap Pagination */

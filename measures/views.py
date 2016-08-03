@@ -11,7 +11,6 @@ from measures.models import GlucoseMeasure
 from measures.report.generator import ReportGenerator
 from measures.querybusiness import peform_query
 from measures.period import get_period_params, get_period_interval, period_param_is_valid
-from accounts.forms import SetPasswordForm
 
 
 @login_required
@@ -44,7 +43,6 @@ def index(request):
     # Context dict
     context = {
         'form'        : form,
-        'set_pwd_form': SetPasswordForm(request.user),
         'period'      : period,
         'period_begin': period_begin,
         'period_end'  : period_end,

@@ -1,4 +1,5 @@
-{% include  'accounts/modal/set_password.html' %}
+<div id="setPasswordModal" class="modal fade" tabindex="-1" role="dialog"></div>
+
 <nav class="navbar navbar-default">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -12,7 +13,6 @@
             <a class="navbar-brand" href="/./">GlucoseMonitor</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
             {% if request.user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
@@ -20,19 +20,20 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>{{ request.user.first_name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li role="separator" class="divider"></li>
-                        <li><a href="#" data-toggle="modal" data-target="#setPasswordModal"><i class="glyphicon glyphicon-lock"></i>Alterar senha</a></li>
-                        <li><a href="/logout"><i class="glyphicon glyphicon-off"></i>Sair</a></li>
+                        <li><a onclick="remoteFunction('/set_password/', 'setPasswordModal')" data-toggle="modal" data-target="#setPasswordModal"><i class="glyphicon glyphicon-lock"></i>Alterar senha</a></li>
+                        <li><a href="/accounts/logout"><i class="glyphicon glyphicon-off"></i>Sair</a></li>
                     </ul>
                 </li>
             </ul>
             {% else %}
-            <form class="navbar-form navbar-right" action="/./" method="post">{% csrf_token %}
+            <form class="navbar-form navbar-right" action="/accounts/login" method="post">{% csrf_token %}
                 <div class="form-group">
                     <input name="username" type="text" class="form-control" placeholder="Usuário">
                 </div>
                 <div class="form-group">
                     <input name="password" type="password" class="form-control" placeholder="Senha">
                 </div>
+                <input name="next" type="hidden" value="{{ next }}">
                 <button type="submit" class="btn btn-login">Entrar</button>
             </form>
             {% endif %}

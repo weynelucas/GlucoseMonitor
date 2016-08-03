@@ -4,27 +4,31 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from .forms import UserSignUpForm
+from django.contrib.auth import update_session_auth_hash
+from .forms import UserSignUpForm, PasswordChangeForm
 
 
 def login(request):
     if request.method == 'POST':
+        next = request.POST.get('next', '/measures/')
         username = request.POST['username']
         password = request.POST['password']
 
         user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth.login(request, user)
-            return redirect('/measures/')
+            return redirect(next)
         else:
             messages.error(request, 'Usuário e/ou senha inválidos.')
 
     else:
+        next = request.GET.get('next', '/measures/')
         if request.user.is_authenticated():
-            return redirect('/measures/')
+            return redirect(next)
 
     context = {
         'form': UserSignUpForm(),
+        'next': next
     }
 
     return render(request, "accounts/login.html", context)
@@ -33,7 +37,6 @@ def logout(request):
     auth.logout(request)
     return redirect(login)
 
-@login_required
 def signup(request):
     if request.method == 'POST':
         form = UserSignUpForm(request.POST)
@@ -48,7 +51,23 @@ def signup(request):
 
 @login_required
 def set_password(request):
-    pass
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Senha alterada com sucesso.')
+            return redirect('/measures/')
+    else:
+        form = PasswordChangeForm(request.user)
+
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/modal/set_password.html', context)
+
+
+
 
 def lookup(request, field, value):
     filter_dict = {}
