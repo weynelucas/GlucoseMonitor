@@ -20,7 +20,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>{{ request.user.first_name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li role="separator" class="divider"></li>
-                        <li><a onclick="remoteFunction('/set_password/', 'setPasswordModal')" data-toggle="modal" data-target="#setPasswordModal"><i class="glyphicon glyphicon-lock"></i>Alterar senha</a></li>
+                        <li><a onclick="remoteFunction('/accounts/set_password/', 'setPasswordModal')" data-toggle="modal" data-target="#setPasswordModal"><i class="glyphicon glyphicon-lock"></i>Alterar senha</a></li>
                         <li><a href="/accounts/logout"><i class="glyphicon glyphicon-off"></i>Sair</a></li>
                     </ul>
                 </li>

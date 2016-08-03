@@ -41,7 +41,7 @@ function validateForm() {
 function isUniqueField(field, value) {
     var response = true;
     $.ajax({
-        url: "/lookup/" + field + "/" + value,
+        url: "/accounts/lookup/" + field + "/" + value,
         dataType: 'json',
         type: 'get',
         async: false,
@@ -58,7 +58,7 @@ function isUniqueField(field, value) {
 function check_password(password) {
     var response = false;
     $.ajax({
-        url: "/check_password/" + password,
+        url: "/accounts/check_password/" + password,
         dataType: 'json',
         type: 'get',
         async: false,
