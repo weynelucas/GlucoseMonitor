@@ -33,10 +33,16 @@ def logout(request):
     return redirect(login)
 
 def signup(request):
-    response_data = {}
-    response_data['result'] = 'error'
-    response_data['message'] = 'Some error message'
-    return JsonResponse(response_data)
+    if request.method == 'POST':
+        form = UserSignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            new_user = auth.authenticate(username=request.POST['username'], password=request.POST['password1'])
+            if new_user is not None and new_user.is_active:
+                auth.login(request, new_user)
+                return redirect('/measures/')
+
+    return redirect(login)
 
 def lookup(request, field, value):
     filter_dict = {}
