@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <input name="password" type="password" class="form-control" placeholder="Senha">
                 </div>
-                <input name="next" type="hidden" value="{{ next }}">
+                <input name="next" type="hidden" value="{{ next | default:'/measures/'}}">
                 <button type="submit" class="btn btn-login">Entrar</button>
             </form>
             {% endif %}

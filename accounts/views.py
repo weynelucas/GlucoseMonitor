@@ -10,25 +10,25 @@ from .forms import UserSignUpForm, PasswordChangeForm
 
 def login(request):
     if request.method == 'POST':
-        next = request.POST.get('next', '/measures/')
-        username = request.POST['username']
-        password = request.POST['password']
+        next_path = request.POST.get('next', '/measures/')
+        username  = request.POST['username']
+        password  = request.POST['password']
 
         user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
             auth.login(request, user)
-            return redirect(next)
+            return redirect(next_path)
         else:
             messages.error(request, 'Usuário e/ou senha inválidos.')
 
     else:
-        next = request.GET.get('next', '/measures/')
+        next_path = request.GET.get('next', '/measures/')
         if request.user.is_authenticated():
-            return redirect(next)
+            return redirect(next_path)
 
     context = {
         'form': UserSignUpForm(),
-        'next': next
+        'next': next_path
     }
 
     return render(request, "accounts/login.html", context)
