@@ -1,5 +1,14 @@
-{% extends 'base.html' %}
+{% extends "error/base.html" %}
 
-{% block main_content %}
+
+{% block error_title %}
 404
+{% endblock %}
+
+{% block error_subtitle %}
+Página não encontrada
+{% endblock %}
+
+{% block error_message %}
+A página que você está procurando não foi encontrada. Verifique sua URL ou volte para a página principal.
 {% endblock %}

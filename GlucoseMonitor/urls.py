@@ -17,8 +17,13 @@ from django.conf.urls import url, include, handler400, handler403, handler404, h
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import bad_request, permission_denied, page_not_found, server_error
 
 urlpatterns = [
+    url(r'^400', bad_request),
+    url(r'^403', permission_denied),
+    url(r'^404', page_not_found),
+    url(r'^500', server_error),
     url(r'^', include('accounts.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^measures/', include('measures.urls')),

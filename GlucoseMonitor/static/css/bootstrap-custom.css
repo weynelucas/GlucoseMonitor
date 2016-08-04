@@ -31,6 +31,10 @@ select.form-control {
     cursor: pointer;
 }
 
+/* Gliphicons  on large buttons */
+.btn-lg i {
+    margin-right: 15px;
+}
 
 
 /* Bootstrap Pagination */

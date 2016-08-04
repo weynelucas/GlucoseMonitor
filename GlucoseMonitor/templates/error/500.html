@@ -1,5 +1,14 @@
-{% extends 'base.html' %}
+{% extends "error/base.html" %}
 
-{% block main_content %}
+
+{% block error_title %}
 500
+{% endblock %}
+
+{% block error_subtitle %}
+Erro interno do servidor
+{% endblock %}
+
+{% block error_message %}
+Occorreu um erro em nossos servidores. Já estamos cientes deste erro e iremos trabalhar para corrigí-lo.
 {% endblock %}

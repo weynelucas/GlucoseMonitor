@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="container">
+    <div class="center hero-unit">
+        <div class="row">
+            <h1 >
+                <strong>
+                    {% block error_title %}
+                    {% endblock %}
+                </strong>
+            </h1>
+            <h2>
+                {% block error_subtitle %}
+                {% endblock %}
+            </h2>
+            <p>
+                {% block error_message %}
+                {% endblock %}
+            </p>
+            <a href="/./" class="btn btn-danger btn-lg"><i class="glyphicon glyphicon-home"></i>Voltar à página principal</a>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

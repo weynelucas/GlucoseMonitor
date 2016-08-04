@@ -1,5 +1,14 @@
-{% extends 'base.html' %}
+{% extends "error/base.html" %}
 
-{% block main_content %}
+
+{% block error_title %}
 403
+{% endblock %}
+
+{% block error_subtitle %}
+Acesso negado
+{% endblock %}
+
+{% block error_message %}
+Você não possui permissão para acessar esta página.
 {% endblock %}

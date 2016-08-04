@@ -1,5 +1,14 @@
-{% extends 'base.html' %}
+{% extends "error/base.html" %}
 
-{% block main_content %}
+
+{% block error_title %}
 400
+{% endblock %}
+
+{% block error_subtitle %}
+Solicitação inválida
+{% endblock %}
+
+{% block error_message %}
+A sua solicitação contém uma sintaxe inválida e por isso não pôde ser atendida.
 {% endblock %}
