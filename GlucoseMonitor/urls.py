@@ -20,10 +20,6 @@ from django.conf.urls.static import static
 from .views import bad_request, permission_denied, page_not_found, server_error
 
 urlpatterns = [
-    url(r'^400', bad_request),
-    url(r'^403', permission_denied),
-    url(r'^404', page_not_found),
-    url(r'^500', server_error),
     url(r'^', include('accounts.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^measures/', include('measures.urls')),
@@ -34,6 +30,6 @@ handler403 = 'GlucoseMonitor.views.permission_denied'
 handler404 = 'GlucoseMonitor.views.page_not_found'
 handler500 = 'GlucoseMonitor.views.server_error'
 
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
