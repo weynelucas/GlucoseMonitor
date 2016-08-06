@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django import forms
+from django.contrib.auth import update_session_auth_hash
 from parsley.decorators import parsleyfy
 
 
@@ -46,10 +47,19 @@ class UserSignUpForm(UserCreationForm):
 
 
 @parsleyfy
-class PasswordChangeForm(PasswordChangeForm):
+class PasswordUpdateForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Senha atual'}), required=True)
     new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Nova senha'}), required=True)
     new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Confirmar nova senha'}), required=True)
+
+    def __init__(self, request):
+        self.request = request
+        super(self.__class__, self).__init__(user=request.user or None, data=request.POST or None)
+
+    def save(self):
+        super(self.__class__, self).save()
+        update_session_auth_hash(self.request, self.user)
+
     class Meta:
         fields = ['old_password', 'new_password1', 'new_password2']
         parsley_extras = {

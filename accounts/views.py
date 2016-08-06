@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
-from .forms import UserSignUpForm, PasswordChangeForm
+from .forms import UserSignUpForm, PasswordUpdateForm
 
 
 def login(request):
@@ -52,22 +52,18 @@ def signup(request):
 @login_required
 def set_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(user=request.user, data=request.POST)
+        form = PasswordUpdateForm(request)
         if form.is_valid():
             form.save()
-            update_session_auth_hash(request, form.user)
             messages.success(request, 'Senha alterada com sucesso.')
             return redirect('/measures/')
     else:
-        form = PasswordChangeForm(request.user)
+        form = PasswordUpdateForm(request)
 
     context = {
         'form': form
     }
     return render(request, 'accounts/modal/set_password.html', context)
-
-
-
 
 def lookup(request, field, value):
     filter_dict = {}
