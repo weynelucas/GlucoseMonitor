@@ -3,7 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django import forms
 from django.contrib.auth import update_session_auth_hash
 from parsley.decorators import parsleyfy
-
+from django.core.mail import mail_admins, send_mail
+from django.template.loader import render_to_string
 
 @parsleyfy
 class UserSignUpForm(UserCreationForm):
@@ -45,7 +46,6 @@ class UserSignUpForm(UserCreationForm):
         }
 
 
-
 @parsleyfy
 class PasswordUpdateForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control', 'placeholder': 'Senha atual'}), required=True)
@@ -80,3 +80,35 @@ class PasswordUpdateForm(PasswordChangeForm):
                 'required-message': 'Este campo é obrigatório.',
             }
         }
+
+
+TOPIC_CHOICES = (
+    ('general', 'Geral'),
+    ('bug-report', 'Relatar bug'),
+    ('suggestion', 'Sugestão'),
+)
+
+@parsleyfy
+class ContactForm(forms.Form):
+    topic   = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control'}), label='Tópico', choices=TOPIC_CHOICES, initial='general', required=True)
+    title   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Título'}), label='Título', max_length=100, required=True)
+    message = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Mensagem'}), label='Mensagem', max_length=750, required=True)
+
+    def send(self):
+        context = {
+            'topic'  : dict(self.fields['topic'].choices)[self.cleaned_data['topic']],
+            'title'  : self.cleaned_data['title'],
+            'message': self.cleaned_data['message'],
+            'sender' : 'lucasweyne'
+        }
+        message_html = render_to_string('accounts/mail/contact.html', context)
+
+
+        send_mail(
+            'GlucoseMonitor - Mensagem enviada',
+            "Uma mensagem foi enviada \nTÓPICO: " + dict(self.fields['topic'].choices)[self.cleaned_data['topic']] + "\nMENSAGEM: " + self.cleaned_data['message'],
+            "weynelucas@gmail.com",
+            ["weynelucas@gmail.com"],
+            html_message = message_html,
+            fail_silently=False,
+        )

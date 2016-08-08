@@ -5,7 +5,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
-from .forms import UserSignUpForm, PasswordUpdateForm
+from django.core.mail import mail_admins
+from .forms import UserSignUpForm, PasswordUpdateForm, ContactForm
 
 
 def login(request):
@@ -51,12 +52,13 @@ def signup(request):
 
 @login_required
 def set_password(request):
+    path = request.META['HTTP_REFERER']
     if request.method == 'POST':
         form = PasswordUpdateForm(request)
         if form.is_valid():
             form.save()
             messages.success(request, 'Senha alterada com sucesso.')
-            return redirect('/measures/')
+            return redirect(path)
     else:
         form = PasswordUpdateForm(request)
 
@@ -64,6 +66,23 @@ def set_password(request):
         'form': form
     }
     return render(request, 'accounts/modal/set_password.html', context)
+
+@login_required
+def contact(request):
+    path = request.META['HTTP_REFERER']
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if(form.is_valid()):
+            form.send()
+            messages.success(request, 'Mensagem enviada com sucesso.')
+            return redirect(path)
+    else:
+        form = ContactForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/modal/contact.html', context)
 
 def lookup(request, field, value):
     filter_dict = {}
