@@ -1,17 +1,20 @@
-<!DOCTYPE html>
+{% load inlinecss %}
+{% inlinecss "css/fonts.css" %}
+{% inlinecss "css/master.css" %}
 <html>
     <head>
         <meta charset="utf-8">
     </head>
     <body>
-        <p  style="font-family:Monospace; font-size:15px">
-            Uma mensagem com o tópico {{ topic | upper }} foi enviada por {{ sender }}.
-        </p>
-        <h3 style="font-family:Monospace; font-size:25px; margin-bottom:0">
-            {{ title }}
-        </h3>
-        <p  style="font-family:Monospace; font-size:15px">
-            {{ message | linebreaksbr }}
-        </p>
+        <div class="content-box">
+            <h1 class="content-box-header no-margin">GlucoseMonitor</h1>
+            <div class="content-box-body">
+                <p>Uma mensagem com o tópico {{ topic | upper }} foi enviada por {{ sender }}.</p>
+                <h3>{{ title }}</h3>
+                <p>{{ message | linebreaksbr }}</p>
+            </div>
+        </div>
     </body>
 </html>
+{% endinlinecss %}
+{% endinlinecss %}

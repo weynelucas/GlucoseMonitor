@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'parsley',
     'bootstrap_pagination',
+    'django_inlinecss',
 ]
 
 MIDDLEWARE_CLASSES = [
