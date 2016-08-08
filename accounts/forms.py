@@ -91,18 +91,16 @@ TOPIC_CHOICES = (
 @parsleyfy
 class ContactForm(forms.Form):
     topic   = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control'}), label='Tópico', choices=TOPIC_CHOICES, initial='general', required=True)
-    title   = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Título'}), label='Título', max_length=100, required=True)
     message = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Mensagem'}), label='Mensagem', max_length=750, required=True)
 
-    def send(self):
+    def send(self, sender):
         context = {
             'topic'  : dict(self.fields['topic'].choices)[self.cleaned_data['topic']],
-            'title'  : self.cleaned_data['title'],
             'message': self.cleaned_data['message'],
-            'sender' : 'lucasweyne'
+            'sender' : sender,
         }
-        message_html = render_to_string('accounts/mail/contact.html', context)
 
+        message_html = render_to_string('accounts/mail/contact.html', context)
 
         send_mail(
             'GlucoseMonitor - Mensagem enviada',

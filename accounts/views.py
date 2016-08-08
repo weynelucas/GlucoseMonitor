@@ -73,7 +73,7 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if(form.is_valid()):
-            form.send()
+            form.send(request.user)
             messages.success(request, 'Mensagem enviada com sucesso.')
             return redirect(path)
     else:

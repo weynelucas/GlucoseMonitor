@@ -9,9 +9,11 @@
         <div class="content-box">
             <h1 class="content-box-header no-margin">GlucoseMonitor</h1>
             <div class="content-box-body">
-                <p>Uma mensagem com o tópico {{ topic | upper }} foi enviada por {{ sender }}.</p>
-                <h3>{{ title }}</h3>
-                <p>{{ message | linebreaksbr }}</p>
+                <p>Uma mensagem com o tópico {{ topic | upper }} foi enviada por {{ sender.first_name }}.</p>
+                <fieldset>
+                    <legend>Mensagem:</legend>
+                    <p>{{ message | linebreaksbr }}</p>
+                </fieldset>
             </div>
         </div>
     </body>
