@@ -1,0 +1,7 @@
+{
+  "name": "Glucose Monitor",
+  "description": "A simple webapp powered by Django to monitoring blood glucose levels.",
+  "repository": "https://github.com/weynelucas/GlucoseMonitor",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ]
+}
