@@ -100,11 +100,12 @@ class ContactForm(forms.Form):
             'sender' : sender,
         }
 
-        message_html = render_to_string('accounts/mail/contact.html', context)
+        message_plain = render_to_string('accounts/mail/contact.txt', context)
+        message_html  = render_to_string('accounts/mail/contact.html', context)
 
         send_mail(
-            'GlucoseMonitor - Mensagem enviada',
-            "Uma mensagem foi enviada \nTÓPICO: " + dict(self.fields['topic'].choices)[self.cleaned_data['topic']] + "\nMENSAGEM: " + self.cleaned_data['message'],
+            "GlucoseMonitor - %s" % (context['topic'].upper()),
+            message_plain,
             "weynelucas@gmail.com",
             ["weynelucas@gmail.com"],
             html_message = message_html,

@@ -1,0 +1,4 @@
+GlucoseMonitor
+Uma mensagem de {{ topic | upper }} foi enviada por {{ sender.first_name }}.
+Mesagem:
+    {{ message }}
