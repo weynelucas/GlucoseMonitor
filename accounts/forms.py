@@ -103,11 +103,9 @@ class ContactForm(forms.Form):
         message_plain = render_to_string('accounts/mail/contact.txt', context)
         message_html  = render_to_string('accounts/mail/contact.html', context)
 
-        send_mail(
+        mail_admins(
             "GlucoseMonitor - %s" % (context['topic'].upper()),
             message_plain,
-            "weynelucas@gmail.com",
-            ["weynelucas@gmail.com"],
+            sender.email,
             html_message = message_html,
-            fail_silently=False,
         )

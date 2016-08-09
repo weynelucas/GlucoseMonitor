@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import dj_database_url
 
+
+# Admins
+ADMINS = (
+    ('Lucas Weyne', 'weynelucas@gmail.com'),
+)
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'rb%k+7ucs%uvtzl5_8mcbckl*h*zowh8ebr)#ewd-g2-lh9m^z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -78,7 +84,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'GlucoseMonitor.wsgi.application'
 
 
-# Database
+# Local Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
@@ -135,9 +141,6 @@ USE_L10N = True
 
 USE_TZ = False
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -148,6 +151,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'measures', 'static'),
     os.path.join(BASE_DIR, 'accounts', 'static'),
 ]
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 
 # Media files
 # https://docs.djangoproject.com/en/1.9/topics/files/
@@ -160,4 +168,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'weynelucas@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'WeYq1ju3c20'
