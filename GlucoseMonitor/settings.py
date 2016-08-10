@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'parsley',
     'bootstrap_pagination',
     'django_inlinecss',
+    'favicon',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -156,6 +157,8 @@ STATICFILES_DIRS = [
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+# Favicon
+FAVICON_PATH = STATIC_URL + 'img/glucosemeter.png'
 
 # Media files
 # https://docs.djangoproject.com/en/1.9/topics/files/

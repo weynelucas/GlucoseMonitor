@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from .views import bad_request, permission_denied, page_not_found, server_error
 
 urlpatterns = [
+    url(r'^', include('favicon.urls')),
     url(r'^', include('accounts.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^measures/', include('measures.urls')),
