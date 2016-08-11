@@ -11,7 +11,7 @@ from measures.models import GlucoseMeasure
 from measures.report.generator import ReportGenerator
 from measures.querybusiness import peform_query
 from measures.period import get_period_params, get_period_interval, period_param_is_valid
-
+from django.db.models import Avg, Max, Min
 
 @login_required
 @period_param_is_valid
@@ -58,7 +58,10 @@ def index(request):
         'overlay': {
             'data'  : json.dumps(values,    cls=DecimalEncoder),
             'labels': json.dumps(datetimes, cls=DateTimeEncoder),
-        }
+        },
+        'average': queryset.aggregate(Avg('value'))['value__avg'],
+        'max'    : queryset.aggregate(Max('value'))['value__max'],
+        'min'    : queryset.aggregate(Min('value'))['value__min'],
     }
 
     return render(request, 'measures/index.html', context)
