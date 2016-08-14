@@ -12,6 +12,7 @@ from measures.report.generator import ReportGenerator
 from measures.querybusiness import peform_query
 from measures.period import get_period_params, get_period_interval, period_param_is_valid
 from django.db.models import Avg, Max, Min
+from django.utils import timezone
 
 @login_required
 @period_param_is_valid
@@ -141,7 +142,7 @@ def export_pdf(request):
     period_interval = get_period_interval(request)
 
     response = HttpResponse(content_type='application/pdf')
-    filename = 'Relatorio_' + datetime.now().strftime('%Y_%m_%d__%H_%M')
+    filename = 'Relatorio_' + timezone.now().strftime('%Y_%m_%d__%H_%M')
     response['Content-Disposition'] ='attachement; filename=%s.pdf' % (filename)
 
     report = ReportGenerator()

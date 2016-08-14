@@ -1,4 +1,5 @@
 from io import BytesIO
+from django.utils import timezone
 from datetime import datetime
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -38,7 +39,7 @@ class ReportGenerator:
 
         info_values = [
             objects[0].user.get_full_name(),
-            datetime.now().strftime('%d/%m/%Y %H:%M'),
+            timezone.now().strftime('%d/%m/%Y %H:%M'),
             "%s - %s" % (period_interval[0].strftime('%d/%m/%Y'), period_interval[1].strftime('%d/%m/%Y')),
             objects.count()
         ]
