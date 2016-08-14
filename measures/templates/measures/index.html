@@ -1,5 +1,4 @@
 {% extends "measures/base.html"  %}
-{% load tz %}
 
 {% block head %}
 <style media="screen">
@@ -68,9 +67,7 @@ Dashboard
                     {% for instance in last %}
                     <a href="" class="list-group-item">
                         <h4 class="list-group-item-heading">{{ instance.value }} mg/dL</h4>
-                        {% localtime on %}
                         <div class="list-group-item-text">{{ instance.datetime | timesince }} atrás</div>
-                        {% endlocaltime %}
                     </a>
                     {% empty %}
                     <div class="list-group-item">
