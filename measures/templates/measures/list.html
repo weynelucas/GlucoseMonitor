@@ -1,5 +1,6 @@
 {% extends "measures/base.html" %}
 {% load bootstrap_pagination %}
+{% load tz %}
 
 {% block title %}
 Minhas Medições
@@ -35,7 +36,9 @@ Minhas Medições
                     <div class="col-xs-7 col-sm-7 col-md-7">
                         <h4>{{ instance.value }} mg/dL</h4>
                         <div class="list-group-item-text">{{ instance.datetime | date }}</div>
+                        {% localtime on %}
                         <div class="list-group-item-text">{{ instance.datetime | time:"H:i" }}</div>
+                        {% endlocaltime %}
                         <span class="label label-{{ instance.measure_type | lower }}">{{ instance.get_measure_type_display }}</span>
                     </div>
                     <div class="col-xs-5 col-sm-5 col-md-5">
