@@ -142,7 +142,7 @@ def export_pdf(request):
     period_interval = get_period_interval(request)
 
     response = HttpResponse(content_type='application/pdf')
-    filename = 'Relatorio_' + timezone.now().strftime('%Y_%m_%d__%H_%M')
+    filename = 'Relatorio_' + datetime.now().strftime('%Y_%m_%d__%H_%M')
     response['Content-Disposition'] ='attachement; filename=%s.pdf' % (filename)
 
     report = ReportGenerator()

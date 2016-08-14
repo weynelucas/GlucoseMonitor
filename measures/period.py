@@ -28,7 +28,7 @@ def get_period_interval(request):
             as a datetime list
     """
     period = request.GET.get('period', '30')
-    today = timezone.now()
+    today = datetime.now()
     final_date   = datetime.combine(today, time.max)
     try:
         days_left = int(period)

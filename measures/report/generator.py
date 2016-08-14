@@ -39,7 +39,7 @@ class ReportGenerator:
 
         info_values = [
             objects[0].user.get_full_name(),
-            timezone.now().strftime('%d/%m/%Y %H:%M'),
+            datetime.now().strftime('%d/%m/%Y %H:%M'),
             "%s - %s" % (period_interval[0].strftime('%d/%m/%Y'), period_interval[1].strftime('%d/%m/%Y')),
             objects.count()
         ]
